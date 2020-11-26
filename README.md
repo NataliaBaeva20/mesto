@@ -26,4 +26,4 @@ JavaScript для интерактивности страницыю
 
 **Ссылка на проект**
 
-* [Ссылка на проект])
+* [Ссылка на проект](https://nataliabaeva20.github.io/mesto/index.html)
