@@ -1,0 +1,22 @@
+.card__like {
+  width: 20.76px;
+  height: 18.13px;
+  background-color: #fff;
+  background-image: url(../../../image/like-btn.svg);
+  background-size: cover;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-right: 3.24px;
+  transition: opacity .3s ease-in;
+}
+
+.card__like:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.card__like_active {
+  background: url(../../../image/Union.svg) center no-repeat;
+}

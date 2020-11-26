@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="body">
+  <div class="page">
+    <header class="header page__header">
+      <div class="header__logo"></div>
+    </header>
+    <main class="content page__content">
+
+      <section class="profile content__section">
+        <img src="./image/avatar.jpg" alt="Фото профиля" class="profile__image">
+        <div class="profile__info">
+          <h1 class="profile__title">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__edit-btn"></button>
+          <p class="profile__subtitle">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__add-btn"></button>
+      </section>
+
+
+      <section class="cards content__section">
+        <div class="card">
+          <img src="./image/card-karachayevsk.jpg" alt="Сентинский храм Карачаево-Черкесия" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Карачаево-Черкесия</h2>
+            <button type="button" class="card__like card__like_active"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./image/card-elbrus.png" alt="Гора Эльбрус" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Гора Эльбрус</h2>
+            <button type="button" class="card__like"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./image/card-dombay.png" alt="Домбай" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Домбай</h2>
+            <button type="button" class="card__like"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./image/card-karelia.jpg" alt="Карелия" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Карелия</h2>
+            <button type="button" class="card__like"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./image/card-crimea.jpg" alt="Крым" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Крым</h2>
+            <button type="button" class="card__like"></button>
+          </div>
+        </div>
+        <div class="card">
+          <img src="./image/card-kamchatka.png" alt="Камчатка" class="card__image">
+          <div class="card__block">
+            <h2 class="card__title">Камчатка</h2>
+            <button type="button" class="card__like"></button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer page__footer">
+      <p class="footer__author">&copy; 2020 Mesto Russia</p>
+    </footer>
+  </div>
+
+  <div class="popup">
+    <div class="popup__container">
+
+      <button class="popup__close-btn"></button>
+      <h3 class="popup__title">Редактировать профиль</h3>
+      <form class="form">
+        <input type="text" class="form__input form__input-name">
+        <input type="text" class="form__input form__input-job">
+        <button type="submit" class="form__btn">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="./js/index.js"></script>
+</body>
+</html>
