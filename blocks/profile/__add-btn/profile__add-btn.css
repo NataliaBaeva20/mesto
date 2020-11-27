@@ -4,10 +4,7 @@
   border: 2px solid #fff;
   border-radius: 2px;
   box-sizing: border-box;
-  background-image: url(../../../image/add-btn.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000;
+  background-color: transparent;
   padding: 0;
   margin-left: auto;
   transition: opacity .3s ease-in;
