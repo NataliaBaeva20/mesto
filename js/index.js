@@ -18,10 +18,6 @@ function togglePopupVisibale() {
   }
 }
 
-function togglePopupInvisibale() {
-  popup.classList.toggle('popup_visible');
-}
-
 // Обработчик «отправки» формы
 function handleFormSubmit (evt) {
     evt.preventDefault(); // Отмена стандартной отправки формы.
@@ -32,5 +28,5 @@ function handleFormSubmit (evt) {
 }
 
 editButton.addEventListener('click', togglePopupVisibale);
-popupCloseButton.addEventListener('click', togglePopupInvisibale);
+popupCloseButton.addEventListener('click', togglePopupVisibale);
 formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
