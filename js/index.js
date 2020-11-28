@@ -9,22 +9,21 @@ let nameInput = document.querySelector('.form__input_value_name');
 let jobInput = document.querySelector('.form__input_value_job');
 
 
-
-editButton.addEventListener('click', togglePopupVisibale);
-popupCloseButton.addEventListener('click', togglePopupVisibale);
-
-// при открытии формы заполнение полей значениями со страницы
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileSubtitle.textContent;
-
-
 function togglePopupVisibale() {
+  popup.classList.toggle('popup_visible');
+  if (popup.classList.contains('popup_visible')) {
+    // при открытии формы заполнение полей значениями со страницы
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileSubtitle.textContent;
+  }
+}
+
+function togglePopupInvisibale() {
   popup.classList.toggle('popup_visible');
 }
 
-
 // Обработчик «отправки» формы
-function formSubmitHandler (evt) {
+function handlerFormSubmit (evt) {
     evt.preventDefault(); // Отмена стандартной отправки формы.
 
     profileTitle.textContent = nameInput.value;
@@ -32,6 +31,6 @@ function formSubmitHandler (evt) {
     togglePopupVisibale(); // закрытие попап, после изменения и сохранения информации
 }
 
-// Обработчик формы:
-// он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
+editButton.addEventListener('click', togglePopupVisibale);
+popupCloseButton.addEventListener('click', togglePopupInvisibale);
+formElement.addEventListener('submit', handlerFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
