@@ -23,7 +23,7 @@ function togglePopupInvisibale() {
 }
 
 // Обработчик «отправки» формы
-function handlerFormSubmit (evt) {
+function handleFormSubmit (evt) {
     evt.preventDefault(); // Отмена стандартной отправки формы.
 
     profileTitle.textContent = nameInput.value;
@@ -33,4 +33,4 @@ function handlerFormSubmit (evt) {
 
 editButton.addEventListener('click', togglePopupVisibale);
 popupCloseButton.addEventListener('click', togglePopupInvisibale);
-formElement.addEventListener('submit', handlerFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
+formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
