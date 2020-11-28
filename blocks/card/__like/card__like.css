@@ -10,6 +10,7 @@
   cursor: pointer;
   margin-right: 3.24px;
   transition: opacity .3s ease-in;
+  outline: none;
 }
 
 .card__like:hover {
