@@ -23,51 +23,9 @@
         <button type="button" class="profile__add-btn" aria-label="Добавить"><img src="./image/add-btn.svg" alt="Изображение кнопки добавить" class="profile__add-btn-image"></button>
       </section>
 
-
       <section class="cards content__section">
-        <article class="card">
-          <img src="./image/card-karachayevsk.jpg" alt="Сентинский храм Карачаево-Черкесия" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Карачаево-Черкесия</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="./image/card-elbrus.png" alt="Гора Эльбрус" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="./image/card-dombay.png" alt="Домбай" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Домбай</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="./image/card-karelia.jpg" alt="Карелия" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Карелия</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="./image/card-crimea.jpg" alt="Крым" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Крым</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
-        <article class="card">
-          <img src="./image/card-kamchatka.png" alt="Камчатка" class="card__image">
-          <div class="card__block">
-            <h2 class="card__title">Камчатка</h2>
-            <button type="button" class="card__like"></button>
-          </div>
-        </article>
       </section>
+
     </main>
 
     <footer class="footer page__footer">
@@ -87,6 +45,17 @@
       </form>
     </div>
   </div>
+
+  <template id="card-template">
+    <article class="card">
+      <button type="button" class="card__trash-btn"></button>
+      <img alt="" class="card__image">
+      <div class="card__block">
+        <h2 class="card__title"></h2>
+        <button type="button" class="card__like"></button>
+      </div>
+    </article>
+  </template>
 
   <script src="./js/index.js"></script>
 </body>
