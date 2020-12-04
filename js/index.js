@@ -75,8 +75,19 @@ function composeItem (item) {
     cardElement.querySelector('.card__like').addEventListener('click', function (event) {
       event.target.classList.toggle('card__like_active');
     });
-
+    addRemoveToItem(cardElement);
     return cardElement;
 }
+
+function addRemoveToItem(item) {
+  const removeButton = item.querySelector('.card__trash-btn');
+  removeButton.addEventListener('click', removeCard);
+}
+
+function removeCard (event) {
+  const targetItem = event.target.closest('.card');
+  targetItem.remove();
+}
+
 
 renderInitialCards();
