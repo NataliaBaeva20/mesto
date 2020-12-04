@@ -8,6 +8,8 @@ let formElement = document.querySelector('.form');
 let nameInput = document.querySelector('.form__input_value_name');
 let jobInput = document.querySelector('.form__input_value_job');
 const cardsContainer = document.querySelector('.cards');
+const cardTemplate = document.querySelector('.card-template').content;
+
 
 
 function togglePopupVisibale() {
@@ -61,12 +63,20 @@ const initialCards = [
   }
 ];
 
-initialCards.forEach(function (item) {
-  const cardTemplate = document.querySelector("#card-template").content;
+function renderInitialCards() {
+  const cardItems = initialCards.map(composeItem);
+  cardsContainer.append(...cardItems);
+}
+
+function composeItem (item) {
   const cardElement = cardTemplate.cloneNode(true);
+    cardElement.querySelector('.card__image').src = item.link;
+    cardElement.querySelector('.card__title').textContent = item.name;
+    cardElement.querySelector('.card__like').addEventListener('click', function (event) {
+      event.target.classList.toggle('card__like_active');
+    });
 
-  cardElement.querySelector('.card__image').src = item.link;
-  cardElement.querySelector('.card__title').textContent = item.name;
+    return cardElement;
+}
 
-  cardsContainer.append(cardElement);
-});
+renderInitialCards();

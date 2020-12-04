@@ -11,8 +11,8 @@
     <header class="header page__header">
       <div class="header__logo"></div>
     </header>
-    <main class="content page__content">
 
+    <main class="content page__content">
       <section class="profile content__section">
         <img src="./image/avatar.jpg" alt="Фото профиля" class="profile__image">
         <div class="profile__info">
@@ -22,10 +22,8 @@
         </div>
         <button type="button" class="profile__add-btn" aria-label="Добавить"><img src="./image/add-btn.svg" alt="Изображение кнопки добавить" class="profile__add-btn-image"></button>
       </section>
-
       <section class="cards content__section">
       </section>
-
     </main>
 
     <footer class="footer page__footer">
@@ -35,7 +33,6 @@
 
   <div class="popup">
     <div class="popup__container">
-
       <button type="button" class="popup__close-btn" aria-label="Закрыть"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="form" name="edit">
@@ -46,7 +43,21 @@
     </div>
   </div>
 
-  <template id="card-template">
+
+  <div class="popup-add popup">
+    <div class="popup__container">
+      <button type="button" class="popup__close-btn" aria-label="Закрыть"></button>
+      <h3 class="popup__title">Новое место</h3>
+      <form class="form" name="edit">
+        <input type="text" name="mestoName" class="form__input form__input_value_mesto-name" placeholder="Название">
+        <input type="text" name="mestoLink" class="form__input form__input_value_mesto-link" placeholder="Ссылка на картинку">
+        <button type="submit" class="form__btn">Создать</button>
+      </form>
+    </div>
+  </div>
+
+
+  <template class="card-template">
     <article class="card">
       <button type="button" class="card__trash-btn"></button>
       <img alt="" class="card__image">
