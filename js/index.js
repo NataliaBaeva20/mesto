@@ -9,33 +9,7 @@ let nameInput = document.querySelector('.form__input_value_name');
 let jobInput = document.querySelector('.form__input_value_job');
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
-
-
-
-function togglePopupVisibale() {
-  popup.classList.toggle('popup_visible');
-  if (popup.classList.contains('popup_visible')) {
-    // при открытии формы заполнение полей значениями со страницы
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileSubtitle.textContent;
-  }
-}
-
-// Обработчик «отправки» формы
-function handleFormSubmit (evt) {
-    evt.preventDefault(); // Отмена стандартной отправки формы.
-
-    profileTitle.textContent = nameInput.value;
-    profileSubtitle.textContent = jobInput.value;
-    togglePopupVisibale(); // закрытие попап, после изменения и сохранения информации
-}
-
-editButton.addEventListener('click', togglePopupVisibale);
-popupCloseButton.addEventListener('click', togglePopupVisibale);
-formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
-
-
-
+const addButton = document.querySelector('.profile__add-btn');
 const initialCards = [
   {
       name: 'Архыз',
@@ -63,6 +37,25 @@ const initialCards = [
   }
 ];
 
+
+function togglePopupVisibale() {
+  popup.classList.toggle('popup_visible');
+  if (popup.classList.contains('popup_visible')) {
+    // при открытии формы заполнение полей значениями со страницы
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileSubtitle.textContent;
+  }
+}
+
+// Обработчик «отправки» формы
+function handleFormSubmit (evt) {
+    evt.preventDefault(); // Отмена стандартной отправки формы.
+
+    profileTitle.textContent = nameInput.value;
+    profileSubtitle.textContent = jobInput.value;
+    togglePopupVisibale(); // закрытие попап, после изменения и сохранения информации
+}
+
 function renderInitialCards() {
   const cardItems = initialCards.map(composeItem);
   cardsContainer.append(...cardItems);
@@ -75,11 +68,11 @@ function composeItem (item) {
     cardElement.querySelector('.card__like').addEventListener('click', function (event) {
       event.target.classList.toggle('card__like_active');
     });
-    addRemoveToItem(cardElement);
+    removeToItem(cardElement);
     return cardElement;
 }
 
-function addRemoveToItem(item) {
+function removeToItem(item) {
   const removeButton = item.querySelector('.card__trash-btn');
   removeButton.addEventListener('click', removeCard);
 }
@@ -90,4 +83,10 @@ function removeCard (event) {
 }
 
 
+
+
+
 renderInitialCards();
+editButton.addEventListener('click', togglePopupVisibale); // открытие попапа
+popupCloseButton.addEventListener('click', togglePopupVisibale); // закрытие попапа
+formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
