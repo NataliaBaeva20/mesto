@@ -31,7 +31,7 @@
     </footer>
   </div>
 
-  <div class="popup">
+  <div class="popup popup_type_edit">
     <div class="popup__container">
       <button type="button" class="popup__close-btn" aria-label="Закрыть"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
@@ -44,15 +44,23 @@
   </div>
 
 
-  <div class="popup">
-    <div class="popup__container">
-      <button type="button" class="popup__close-btn" aria-label="Закрыть"></button>
+  <div class="popup popup_type_add">
+    <div class="popup__container popup__container_type_add">
+      <button type="button" class="popup__close-btn popup__close-btn_type_add" aria-label="Закрыть"></button>
       <h3 class="popup__title">Новое место</h3>
-      <form class="form" name="edit">
-        <input type="text" name="mestoName" class="form__input form__input_value_mesto-name" placeholder="Название">
-        <input type="text" name="mestoLink" class="form__input form__input_value_mesto-link" placeholder="Ссылка на картинку">
+      <form class="form form-add" name="add">
+        <input type="text" name="mestoName" class="form__input form__input_value_card-name" placeholder="Название">
+        <input type="text" name="mestoLink" class="form__input form__input_value_card-link" placeholder="Ссылка на картинку">
         <button type="submit" class="form__btn">Создать</button>
       </form>
+    </div>
+  </div>
+
+  <div class="popup popup_type_image">
+    <div class="popup__container popup__container_type_image">
+      <button type="button" class="popup__close-btn popup__close-btn_type_add" aria-label="Закрыть"></button>
+      <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg" alt="" class="popup__image">
+      <h2 class="popup__title-image"></h2>
     </div>
   </div>
 

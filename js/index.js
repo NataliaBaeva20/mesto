@@ -1,14 +1,17 @@
 let contain = document.querySelector('.content');
-let editButton = contain.querySelector('.profile__edit-btn');
-let popup = document.querySelector('.popup');
-let popupCloseButton = document.querySelector('.popup__close-btn');
+//const editButton = contain.querySelector('.profile__edit-btn');
+//let editPopup = document.querySelector('.popup');
+//let popupCloseButton = document.querySelector('.popup__close-btn');
 let profileTitle = document.querySelector('.profile__title');
 let profileSubtitle = document.querySelector('.profile__subtitle');
-let formElement = document.querySelector('.form');
+//let formElement = document.querySelector('.form');
 let nameInput = document.querySelector('.form__input_value_name');
 let jobInput = document.querySelector('.form__input_value_job');
+
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
+
+const editButton = contain.querySelector('.profile__edit-btn');
 const addButton = document.querySelector('.profile__add-btn');
 const initialCards = [
   {
@@ -37,7 +40,7 @@ const initialCards = [
   }
 ];
 
-
+/*
 function togglePopupVisibale() {
   popup.classList.toggle('popup_visible');
   if (popup.classList.contains('popup_visible')) {
@@ -45,16 +48,21 @@ function togglePopupVisibale() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
   }
-}
+}*/
 
-// Обработчик «отправки» формы
-function handleFormSubmit (evt) {
+
+
+
+
+
+/*function handleFormSubmit (evt) {
     evt.preventDefault(); // Отмена стандартной отправки формы.
 
     profileTitle.textContent = nameInput.value;
     profileSubtitle.textContent = jobInput.value;
-    togglePopupVisibale(); // закрытие попап, после изменения и сохранения информации
-}
+    togglePopupVisibale(event.target.closest('.popup')); // закрытие попап, после изменения и сохранения информации
+}*/
+//formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
 
 function renderInitialCards() {
   const cardItems = initialCards.map(composeItem);
@@ -69,8 +77,32 @@ function composeItem (item) {
       event.target.classList.toggle('card__like_active');
     });
     removeToItem(cardElement);
+
+    cardElement.querySelector('.card__image').addEventListener('click', function(event) {
+      const imageTarget = event.target;
+      imagePopupOpen(imageTarget, item);
+    });
+
     return cardElement;
+
 }
+
+const imagePopup = document.querySelector('.popup_type_image');
+
+function imagePopupOpen (imageTarget, item) {
+  togglePopupVisibale(document.querySelector('.popup_type_image'));
+  document.querySelector('.popup__image').src = imageTarget.src;
+  document.querySelector('.popup__title-image').textContent = item.name;
+}
+
+
+
+
+
+
+
+
+
 
 function removeToItem(item) {
   const removeButton = item.querySelector('.card__trash-btn');
@@ -86,7 +118,57 @@ function removeCard (event) {
 
 
 
+
+
+
+
+
+const editPopup = document.querySelector('.popup_type_edit');
+const addPopup  = document.querySelector('.popup_type_add');
+const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
+
+function togglePopupVisibale (popup) {
+  popup.classList.toggle('popup_visible');
+  if (popup.classList.contains('popup_visible')) {
+    // при открытии формы заполнение полей значениями со страницы
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileSubtitle.textContent;
+  }
+}
+
+editButton.addEventListener('click', function () {
+  togglePopupVisibale(editPopup);
+});
+
+addButton.addEventListener('click', function () {
+  togglePopupVisibale(addPopup);
+});
+
+[...popupCloseButtons].forEach(button => {
+  button.addEventListener('click', function(event) {
+    togglePopupVisibale(event.target.closest('.popup'));
+  });
+});
+
+
+
+//const nameCardInput = document.querySelector('.form__input_value_card-name');
+//const linkCardInput = document.querySelector('.form__input_value_card-link');
+const formAddElement = document.querySelector('.form-add');
+
+function addCard(evt) {
+  evt.preventDefault();
+  const nameCardInput = document.querySelector('.form__input_value_card-name').value;
+  const linkCardInput = document.querySelector('.form__input_value_card-link').value;
+  const newItem = composeItem({ name:nameCardInput, link:linkCardInput });
+  cardsContainer.prepend(newItem);
+
+
+  togglePopupVisibale(event.target.closest('.popup'));
+}
+
+formAddElement.addEventListener('submit', addCard);
 renderInitialCards();
-editButton.addEventListener('click', togglePopupVisibale); // открытие попапа
-popupCloseButton.addEventListener('click', togglePopupVisibale); // закрытие попапа
-formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
+
+
+
