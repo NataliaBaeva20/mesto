@@ -9,6 +9,7 @@
   right: 15px;
   cursor: pointer;
   transition: opacity .3s ease-in;
+  outline: none;
 }
 
 .card__trash-btn:hover {

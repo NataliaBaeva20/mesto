@@ -8,6 +8,7 @@
   margin-top: 48px;
   transition: opacity .3s ease-in;
   padding: 0;
+  outline: none;
 }
 
 .form__btn:hover {
