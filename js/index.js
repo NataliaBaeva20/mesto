@@ -1,15 +1,25 @@
-let contain = document.querySelector('.content');
-let profileTitle = document.querySelector('.profile__title');
-let profileSubtitle = document.querySelector('.profile__subtitle');
-let formElement = document.querySelector('.popup_type_edit');
-let nameInput = document.querySelector('.form__input_value_name');
-let jobInput = document.querySelector('.form__input_value_job');
+const contain = document.querySelector('.content');
+const profileTitle = document.querySelector('.profile__title');
+const profileSubtitle = document.querySelector('.profile__subtitle');
 
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
 
 const editButton = contain.querySelector('.profile__edit-btn');
 const addButton = document.querySelector('.profile__add-btn');
+const editPopup = document.querySelector('.popup_type_edit');
+const addPopup  = document.querySelector('.popup_type_add');
+const imagePopup = document.querySelector('.popup_type_image');
+const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
+
+const formEditElement = document.querySelector('.popup_type_edit');
+const nameInput = document.querySelector('.form__input_value_name');
+const jobInput = document.querySelector('.form__input_value_job');
+
+const formAddElement = document.querySelector('.form_type_add');
+const inputCardNameElement = document.querySelector('.form__input_value_card-name');
+const inputCardLinkElement = document.querySelector('.form__input_value_card-link');
+
 const initialCards = [
   {
       name: 'Каппадокия',
@@ -38,21 +48,12 @@ const initialCards = [
 ];
 
 
-function handleFormSubmit (evt) {
-    evt.preventDefault(); // Отмена стандартной отправки формы.
-
-    profileTitle.textContent = nameInput.value;
-    profileSubtitle.textContent = jobInput.value;
-    togglePopupVisibale(event.target.closest('.popup')); // закрытие попап, после изменения и сохранения информации
-}
-formElement.addEventListener('submit', handleFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
-
 function renderInitialCards() {
-  const cardItems = initialCards.map(composeItem);
+  const cardItems = initialCards.map(composeCard);
   cardsContainer.append(...cardItems);
 }
 
-function composeItem (item) {
+function composeCard (item) {
   const cardElement = cardTemplate.cloneNode(true);
     cardElement.querySelector('.card__image').src = item.link;
     cardElement.querySelector('.card__title').textContent = item.name;
@@ -60,32 +61,13 @@ function composeItem (item) {
       event.target.classList.toggle('card__like_active');
     });
     removeToItem(cardElement);
-
     cardElement.querySelector('.card__image').addEventListener('click', function(event) {
       const imageTarget = event.target;
-      imagePopupOpen(imageTarget, item);
+      openImagePopup(imageTarget, item);
     });
 
     return cardElement;
-
 }
-
-const imagePopup = document.querySelector('.popup_type_image');
-
-function imagePopupOpen (imageTarget, item) {
-  togglePopupVisibale(document.querySelector('.popup_type_image'));
-  document.querySelector('.popup__image').src = imageTarget.src;
-  document.querySelector('.popup__caption').textContent = item.name;
-}
-
-
-
-
-
-
-
-
-
 
 function removeToItem(item) {
   const removeButton = item.querySelector('.card__trash-btn');
@@ -97,18 +79,11 @@ function removeCard (event) {
   targetItem.remove();
 }
 
-
-
-
-
-
-
-
-
-
-const editPopup = document.querySelector('.popup_type_edit');
-const addPopup  = document.querySelector('.popup_type_add');
-const popupCloseButtons = document.querySelectorAll('.popup__close-btn');
+function openImagePopup (imageTarget, item) {
+  togglePopupVisibale(imagePopup);
+  document.querySelector('.popup__image').src = imageTarget.src;
+  document.querySelector('.popup__caption').textContent = item.name;
+}
 
 function togglePopupVisibale (popup) {
   popup.classList.toggle('popup_visible');
@@ -119,6 +94,32 @@ function togglePopupVisibale (popup) {
   }
 }
 
+[...popupCloseButtons].forEach(function (button) {
+  button.addEventListener('click', function(event) {
+    togglePopupVisibale(event.target.closest('.popup'));
+  });
+});
+
+function handleEditFormSubmit (event) {
+  event.preventDefault(); // Отмена стандартной отправки формы.
+
+  profileTitle.textContent = nameInput.value;
+  profileSubtitle.textContent = jobInput.value;
+  togglePopupVisibale(event.target.closest('.popup')); // закрытие попап, после изменения и сохранения информации
+}
+
+function addCard(event) {
+  event.preventDefault();
+  const nameCardInput = inputCardNameElement.value;
+  const linkCardInput = inputCardLinkElement.value;
+  const newItem = composeCard({ name:nameCardInput, link:linkCardInput });
+  cardsContainer.prepend(newItem);
+
+  inputCardNameElement.value = '';
+  inputCardLinkElement.value = '';
+  togglePopupVisibale(event.target.closest('.popup'));
+}
+
 editButton.addEventListener('click', function () {
   togglePopupVisibale(editPopup);
 });
@@ -127,35 +128,6 @@ addButton.addEventListener('click', function () {
   togglePopupVisibale(addPopup);
 });
 
-[...popupCloseButtons].forEach(button => {
-  button.addEventListener('click', function(event) {
-    togglePopupVisibale(event.target.closest('.popup'));
-  });
-});
-
-
-
-
-const inputCardNameElement = document.querySelector('.form__input_value_card-name');
-const inputCardLinkElement = document.querySelector('.form__input_value_card-link');
-const formAddElement = document.querySelector('.form_type_add');
-
-
-function addCard(evt) {
-  evt.preventDefault();
-  const nameCardInput = inputCardNameElement.value;
-  const linkCardInput = inputCardLinkElement.value;
-  const newItem = composeItem({ name:nameCardInput, link:linkCardInput });
-  cardsContainer.prepend(newItem);
-
-  inputCardNameElement.value = '';
-  inputCardLinkElement.value = '';
-
-  togglePopupVisibale(event.target.closest('.popup'));
-}
-
 formAddElement.addEventListener('submit', addCard);
+formEditElement.addEventListener('submit', handleEditFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
 renderInitialCards();
-
-
-
