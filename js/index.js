@@ -92,7 +92,7 @@ const imagePopup = document.querySelector('.popup_type_image');
 function imagePopupOpen (imageTarget, item) {
   togglePopupVisibale(document.querySelector('.popup_type_image'));
   document.querySelector('.popup__image').src = imageTarget.src;
-  document.querySelector('.popup__title-image').textContent = item.name;
+  document.querySelector('.popup__caption').textContent = item.name;
 }
 
 
