@@ -1,3 +1,4 @@
+
 const contain = document.querySelector('.content');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
@@ -20,33 +21,6 @@ const formAddElement = document.querySelector('.form_type_add');
 const inputCardNameElement = document.querySelector('.form__input_value_card-name');
 const inputCardLinkElement = document.querySelector('.form__input_value_card-link');
 
-const initialCards = [
-  {
-    name: 'Каппадокия',
-    link: 'https://images.unsplash.com/photo-1607261890461-84fd1bfc2504?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Республика Карелия',
-    link: 'https://images.unsplash.com/photo-1590079019458-0eb5b40a3371?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Зеленоградск',
-    link: 'https://images.unsplash.com/photo-1576509994154-82431e076467?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-  },
-  {
-    name: 'Форт Красная Горка, Ленинградская область',
-    link: 'https://images.unsplash.com/photo-1590079019111-ad01176f94d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80'
-  }
-];
-
 
 function renderInitialCards() {
   const cardItems = initialCards.map(composeCard);
@@ -55,18 +29,29 @@ function renderInitialCards() {
 
 function composeCard (item) {
   const cardElement = cardTemplate.cloneNode(true);
-    cardElement.querySelector('.card__image').src = item.link;
-    cardElement.querySelector('.card__title').textContent = item.name;
-    cardElement.querySelector('.card__like').addEventListener('click', function (event) {
-      event.target.classList.toggle('card__like_active');
-    });
-    removeToItem(cardElement);
-    cardElement.querySelector('.card__image').addEventListener('click', function(event) {
-      const imageTarget = event.target;
-      openImagePopup(imageTarget, item);
-    });
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
+  cardImage.src = item.link;
+  cardTitle.textContent = item.name;
+  cardImage.alt = item.name;
 
-    return cardElement;
+  likeToItem(cardElement);
+  removeToItem(cardElement);
+  cardImage.addEventListener('click', function(event) {
+    const imageTarget = event.target;
+    openImagePopup(imageTarget, item);
+  });
+
+  return cardElement;
+}
+
+function likeToItem(item) {
+  const likeButton = item.querySelector('.card__like');
+  likeButton.addEventListener('click', likeCard);
+}
+
+function likeCard(event) {
+  event.target.classList.toggle('card__like_active');
 }
 
 function removeToItem(item) {
@@ -80,18 +65,16 @@ function removeCard (event) {
 }
 
 function openImagePopup (imageTarget, item) {
+  const popupImage = document.querySelector('.popup__image');
+  const popupCaption = document.querySelector('.popup__caption');
+  popupImage.src = imageTarget.src;
+  popupImage.alt = item.name;
+  popupCaption.textContent = item.name;
   togglePopupVisibale(imagePopup);
-  document.querySelector('.popup__image').src = imageTarget.src;
-  document.querySelector('.popup__caption').textContent = item.name;
 }
 
 function togglePopupVisibale (popup) {
   popup.classList.toggle('popup_visible');
-  if (popup.classList.contains('popup_visible')) {
-    // при открытии формы заполнение полей значениями со страницы
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileSubtitle.textContent;
-  }
 }
 
 [...popupCloseButtons].forEach(function (button) {
@@ -115,19 +98,23 @@ function addCard(event) {
   const newItem = composeCard({ name:nameCardInput, link:linkCardInput });
   cardsContainer.prepend(newItem);
 
-  inputCardNameElement.value = '';
-  inputCardLinkElement.value = '';
+  formAddElement.reset(); // очистка полей формы
   togglePopupVisibale(event.target.closest('.popup'));
 }
 
 editButton.addEventListener('click', function () {
   togglePopupVisibale(editPopup);
+  if (editPopup.classList.contains('popup_visible')) {
+    // при открытии формы заполнение полей значениями со страницы
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileSubtitle.textContent;
+  }
 });
 
 addButton.addEventListener('click', function () {
   togglePopupVisibale(addPopup);
 });
 
-formAddElement.addEventListener('submit', addCard);
-formEditElement.addEventListener('submit', handleEditFormSubmit); // Обработчик формы: он будет следить за событием “submit” - «отправка»
+formAddElement.addEventListener('submit', addCard); // Обработчик формы: он будет следить за событием “submit” - «отправка»
+formEditElement.addEventListener('submit', handleEditFormSubmit);
 renderInitialCards();
