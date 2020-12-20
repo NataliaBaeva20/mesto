@@ -108,11 +108,13 @@ editButton.addEventListener('click', function () {
     // при открытии формы заполнение полей значениями со страницы
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
+    enableValidation(validationConfig);
   }
 });
 
 addButton.addEventListener('click', function () {
   togglePopupVisibale(addPopup);
+  enableValidation(validationConfig);
 });
 
 formAddElement.addEventListener('submit', addCard); // Обработчик формы: он будет следить за событием “submit” - «отправка»
