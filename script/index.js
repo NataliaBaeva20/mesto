@@ -22,57 +22,6 @@ const inputCardLinkElement = document.querySelector('.form__input_value_card-lin
 
 const popupList = document.querySelectorAll('.popup');
 
-function renderInitialCards() {
-  const cardItems = initialCards.map(composeCard);
-  cardsContainer.append(...cardItems);
-}
-
-function composeCard (item) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  cardImage.src = item.link;
-  cardTitle.textContent = item.name;
-  cardImage.alt = item.name;
-
-  likeToItem(cardElement);
-  removeToItem(cardElement);
-  cardImage.addEventListener('click', function(event) {
-    const imageTarget = event.target;
-    openImagePopup(imageTarget, item);
-  });
-
-  return cardElement;
-}
-
-function likeToItem(item) {
-  const likeButton = item.querySelector('.card__like');
-  likeButton.addEventListener('click', likeCard);
-}
-
-function likeCard(event) {
-  event.target.classList.toggle('card__like_active');
-}
-
-function removeToItem(item) {
-  const removeButton = item.querySelector('.card__trash-btn');
-  removeButton.addEventListener('click', removeCard);
-}
-
-function removeCard (event) {
-  const targetItem = event.target.closest('.card');
-  targetItem.remove();
-}
-
-function openImagePopup (imageTarget, item) {
-  const popupImage = document.querySelector('.popup__image');
-  const popupCaption = document.querySelector('.popup__caption');
-  popupImage.src = imageTarget.src;
-  popupImage.alt = item.name;
-  popupCaption.textContent = item.name;
-  openPopup(imagePopup);
-}
-
 function passPopupList() {
   popupList.forEach(popup => {
     if (popup.classList.contains('popup_visible')) {
@@ -108,6 +57,56 @@ function closePopup(popup) {
   }
 }
 
+function removeCard (event) {
+  const targetItem = event.target.closest('.card');
+  targetItem.remove();
+}
+
+function removeToItem(item) {
+  const removeButton = item.querySelector('.card__trash-btn');
+  removeButton.addEventListener('click', removeCard);
+}
+
+function likeCard(event) {
+  event.target.classList.toggle('card__like_active');
+}
+
+function likeToItem(item) {
+  const likeButton = item.querySelector('.card__like');
+  likeButton.addEventListener('click', likeCard);
+}
+
+function openImagePopup (imageTarget, item) {
+  const popupImage = document.querySelector('.popup__image');
+  const popupCaption = document.querySelector('.popup__caption');
+  popupImage.src = imageTarget.src;
+  popupImage.alt = item.name;
+  popupCaption.textContent = item.name;
+  openPopup(imagePopup);
+}
+
+function composeCard (item) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
+  cardImage.src = item.link;
+  cardTitle.textContent = item.name;
+  cardImage.alt = item.name;
+
+  likeToItem(cardElement);
+  removeToItem(cardElement);
+  cardImage.addEventListener('click', function(event) {
+    const imageTarget = event.target;
+    openImagePopup(imageTarget, item);
+  });
+  return cardElement;
+}
+
+function renderInitialCards() {
+  const cardItems = initialCards.map(composeCard);
+  cardsContainer.append(...cardItems);
+}
+
 [...popupCloseButtons].forEach(function (button) {
   button.addEventListener('click', function(event) {
     closePopup(event.target.closest('.popup'));
@@ -115,15 +114,12 @@ function closePopup(popup) {
 });
 
 function handleEditFormSubmit (event) {
-  event.preventDefault(); // Отмена стандартной отправки формы.
-
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
   closePopup(event.target.closest('.popup')); // закрытие попап, после изменения и сохранения информации
 }
 
 function addCard(event) {
-  event.preventDefault();
   const nameCardInput = inputCardNameElement.value;
   const linkCardInput = inputCardLinkElement.value;
   const newItem = composeCard({ name:nameCardInput, link:linkCardInput });
@@ -137,7 +133,7 @@ editButton.addEventListener('click', function () {
   openPopup(editPopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  enableValidation(validationConfig);
+  enableValidation(validationConfig); // проверка валидности формы при открытие попапа
 });
 
 addButton.addEventListener('click', function () {

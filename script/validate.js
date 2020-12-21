@@ -26,6 +26,7 @@ function chekInputValidity(form, input, config) {
   }
 }
 
+//функция блокировки кнопки, если форма не валидна
 function setButtonState(button, isActive, config) {
   if (isActive) {
     button.classList.remove(config.inactiveButtonClass);
@@ -40,9 +41,9 @@ function setEventListener(form, config) {
   const inputList = form.querySelectorAll(config.inputSelector);
   const submitButton = form.querySelector(config.submitButtonSelector);
 
-  setButtonState(submitButton, form.checkValidity(), config);
+  setButtonState(submitButton, form.checkValidity(), config); // блокировка кнопки до начала ввода данных в поля
   inputList.forEach(input => {
-    input.addEventListener('input', (evt) => {
+    input.addEventListener('input', () => {
       chekInputValidity(form, input, config);
       setButtonState(submitButton, form.checkValidity(), config);
     });
@@ -51,12 +52,14 @@ function setEventListener(form, config) {
 
 function enableValidation(config) {
   const forms = document.querySelectorAll(config.formSelector);
-
   forms.forEach(form => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Отмена стандартной отправки формы.
+    });
     setEventListener(form, config);
   });
 }
 
-enableValidation(validationConfig);
+enableValidation(validationConfig); // получает объект настроек с нужными классами и селекторами
 
 
