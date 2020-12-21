@@ -52,9 +52,6 @@ function closePopup(popup) {
   popup.classList.remove('popup_visible');
   popup.removeEventListener('mousedown', closeClickOverlay);
   document.removeEventListener('keydown', closePressingKey);
-  if (popup.classList.contains('popup_type_add')) {
-    formAddElement.reset();
-  }
 }
 
 function removeCard (event) {
