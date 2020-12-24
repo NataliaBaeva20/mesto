@@ -127,6 +127,8 @@ function addCard(event) {
 }
 
 editButton.addEventListener('click', function () {
+  hideError(formEditElement, nameInput, validationConfig); // удаление сообщения об ошибке
+  hideError(formEditElement, jobInput, validationConfig);
   openPopup(editPopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
@@ -134,6 +136,9 @@ editButton.addEventListener('click', function () {
 });
 
 addButton.addEventListener('click', function () {
+  formAddElement.reset(); // несохраненные данные при повторном открытии popup удаляются
+  hideError(formAddElement, inputCardNameElement, validationConfig);
+  hideError(formAddElement, inputCardLinkElement, validationConfig);
   openPopup(addPopup);
   enableValidation(validationConfig);
 });
