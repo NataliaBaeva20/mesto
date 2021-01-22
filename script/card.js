@@ -1,5 +1,3 @@
-// import { openPopup } from './index.js';
-
 //для попапа предосмотра картинки
 const imagePopup = document.querySelector('.popup_type_image');
 const popupImage = document.querySelector('.popup__image');
