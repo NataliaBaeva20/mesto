@@ -3,7 +3,7 @@ const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 
 const cardsContainer = document.querySelector('.cards');
-const cardTemplate = document.querySelector('.card-template').content;
+// const cardTemplate = document.querySelector('.card-template').content;
 
 const editButton = contain.querySelector('.profile__edit-btn');
 const addButton = document.querySelector('.profile__add-btn');
@@ -54,55 +54,7 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePressingKey);
 }
 
-function removeCard (event) {
-  const targetItem = event.target.closest('.card');
-  targetItem.remove();
-}
 
-function removeToItem(item) {
-  const removeButton = item.querySelector('.card__trash-btn');
-  removeButton.addEventListener('click', removeCard);
-}
-
-function likeCard(event) {
-  event.target.classList.toggle('card__like_active');
-}
-
-function likeToItem(item) {
-  const likeButton = item.querySelector('.card__like');
-  likeButton.addEventListener('click', likeCard);
-}
-
-function openImagePopup (imageTarget, item) {
-  const popupImage = document.querySelector('.popup__image');
-  const popupCaption = document.querySelector('.popup__caption');
-  popupImage.src = imageTarget.src;
-  popupImage.alt = item.name;
-  popupCaption.textContent = item.name;
-  openPopup(imagePopup);
-}
-
-function composeCard (item) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  cardImage.src = item.link;
-  cardTitle.textContent = item.name;
-  cardImage.alt = item.name;
-
-  likeToItem(cardElement);
-  removeToItem(cardElement);
-  cardImage.addEventListener('click', function(event) {
-    const imageTarget = event.target;
-    openImagePopup(imageTarget, item);
-  });
-  return cardElement;
-}
-
-function renderInitialCards() {
-  const cardItems = initialCards.map(composeCard);
-  cardsContainer.append(...cardItems);
-}
 
 [...popupCloseButtons].forEach(function (button) {
   button.addEventListener('click', function(event) {
@@ -115,34 +67,113 @@ function handleEditFormSubmit (event) {
   profileSubtitle.textContent = jobInput.value;
   closePopup(event.target.closest('.popup')); // закрытие попап, после изменения и сохранения информации
 }
-
+// добавление новой карточки
 function addCard(event) {
   const nameCardInput = inputCardNameElement.value;
   const linkCardInput = inputCardLinkElement.value;
-  const newItem = composeCard({ name:nameCardInput, link:linkCardInput });
-  cardsContainer.prepend(newItem);
+  const newItem = new Card({ name:nameCardInput, link:linkCardInput }, '.card-template');
+  cardsContainer.prepend(newItem.generateCard());
 
   formAddElement.reset(); // очистка полей формы
   closePopup(event.target.closest('.popup'));
 }
 
 editButton.addEventListener('click', function () {
-  hideError(formEditElement, nameInput, validationConfig); // удаление сообщения об ошибке
-  hideError(formEditElement, jobInput, validationConfig);
   openPopup(editPopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-  enableValidation(validationConfig); // проверка валидности формы при открытие попапа
+
+  const validForm = new FormValidator(validationConfig, formEditElement);
+  validForm.enableValidation();
 });
 
 addButton.addEventListener('click', function () {
   formAddElement.reset(); // несохраненные данные при повторном открытии popup удаляются
-  hideError(formAddElement, inputCardNameElement, validationConfig);
-  hideError(formAddElement, inputCardLinkElement, validationConfig);
+
   openPopup(addPopup);
-  enableValidation(validationConfig);
+
+  const validForm = new FormValidator(validationConfig, formAddElement);
+  validForm.enableValidation();
 });
 
 formAddElement.addEventListener('submit', addCard); // Обработчик формы: он будет следить за событием “submit” - «отправка»
 formEditElement.addEventListener('submit', handleEditFormSubmit);
-renderInitialCards();
+
+
+
+
+
+
+
+//для попапа предосмотра картинки
+const popupImage = document.querySelector('.popup__image');
+const popupCaption = document.querySelector('.popup__caption');
+
+class Card {
+  constructor(data, cardSelector) {
+    this._link = data.link;
+    this._title = data.name;
+    this._cardSelector = cardSelector;
+  }
+
+  _likeToItem() {
+    this._element.querySelector('.card__like').classList.toggle('card__like_active');
+  }
+
+  _removeToItem() {
+    this._element.remove();
+  }
+
+  _openImagePopup() {
+    popupImage.src = this._link;
+    popupImage.alt = this._title;
+    popupCaption.textContent = this._title;
+    openPopup(imagePopup);
+  }
+
+  _setEventListeners() {
+    this._element.querySelector('.card__like').addEventListener('click', () => {
+      this._likeToItem();
+    });
+
+    this._element.querySelector('.card__trash-btn').addEventListener('click', () => {
+      this._removeToItem();
+    });
+
+    this._element.querySelector('.card__image').addEventListener('click', () => {
+      this._openImagePopup();
+    });
+  }
+
+  _getTemplate() {
+    //забираем разметку из html и клонируем элемент
+    const cardElement = document
+    .querySelector(this._cardSelector)
+    .content
+    .querySelector('.card')
+    .cloneNode(true);
+
+    // возвращаем dom-елемент карточки
+    return cardElement;
+  }
+
+  generateCard() {
+    this._element = this._getTemplate(); //запись разментки в приватное поле _element, так у других элементов появится доступ к ней.
+    this._setEventListeners();
+
+    //добавляем данные
+    this._element.querySelector('.card__image').src = this._link;
+    this._element.querySelector('.card__image').alt = this._title;
+    this._element.querySelector('.card__title').textContent = this._title;
+
+    return this._element; // вернем элемент наружу
+  }
+}
+
+initialCards.forEach((item) => {
+  const card = new Card(item, '.card-template'); //создаем экземпляр карточки
+
+  const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
+
+  document.querySelector('.cards').append(cardElement); //добавляем в DOM
+});
