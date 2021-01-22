@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: 'Каппадокия',
     link: 'https://images.unsplash.com/photo-1607261890461-84fd1bfc2504?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80'
@@ -24,3 +24,11 @@ const initialCards = [
     link: 'https://images.unsplash.com/photo-1590079019111-ad01176f94d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80'
   }
 ];
+
+export const validationConfig = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__btn',
+  inactiveButtonClass: 'form__btn_invalid',
+  inputErrorClass: 'form__input_invalid'
+}

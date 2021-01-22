@@ -1,12 +1,4 @@
-const validationConfig = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__btn',
-  inactiveButtonClass: 'form__btn_invalid',
-  inputErrorClass: 'form__input_invalid'
-}
-
-class FormValidator {
+export class FormValidator {
   constructor(settingsObject, formElement) {
     this._settingsObject = settingsObject;
     this._formElement = formElement;
