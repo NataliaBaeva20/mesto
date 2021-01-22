@@ -44,7 +44,7 @@ function closePressingKey (evt) {
   }
 }
 
-export function openPopup(popup) {
+function openPopup(popup) {
   popup.classList.add('popup_visible');
   popup.addEventListener('mousedown', closeClickOverlay);
   document.addEventListener('keydown', closePressingKey);
@@ -72,32 +72,39 @@ function handleEditFormSubmit (event) {
 function addCard(event) {
   const nameCardInput = inputCardNameElement.value;
   const linkCardInput = inputCardLinkElement.value;
-  const newItem = new Card({ name:nameCardInput, link:linkCardInput }, '.card-template');
+  const newItem = new Card({ name:nameCardInput, link:linkCardInput }, '.card-template', openPopup);
   cardsContainer.prepend(newItem.generateCard());
 
   formAddElement.reset(); // очистка полей формы
   closePopup(event.target.closest('.popup'));
 }
 
+
+const validFormEdit = new FormValidator(validationConfig, formEditElement);
+validFormEdit.enableValidation();
+
+
 editButton.addEventListener('click', function () {
   openPopup(editPopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-
-  const validForm = new FormValidator(validationConfig, formEditElement);
-  validForm.enableValidation();
+  validFormEdit.resetValidate(nameInput); // удаление ошибок при открытии попапа
+  validFormEdit.resetValidate(jobInput);
 });
+
+const validFormAdd = new FormValidator(validationConfig, formAddElement);
+validFormAdd.enableValidation();
 
 addButton.addEventListener('click', function () {
   formAddElement.reset(); // несохраненные данные при повторном открытии popup удаляются
   openPopup(addPopup);
 
-  const validForm = new FormValidator(validationConfig, formAddElement);
-  validForm.enableValidation();
+  validFormAdd.resetValidate(inputCardNameElement); // удаление ошибок при открытии попапа
+  validFormAdd.resetValidate(inputCardLinkElement);
 });
 
 initialCards.forEach((item) => {
-  const card = new Card(item, '.card-template'); //создаем экземпляр карточки
+  const card = new Card(item, '.card-template', openPopup); //создаем экземпляр карточки
 
   const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
 

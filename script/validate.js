@@ -25,13 +25,13 @@ export class FormValidator {
   }
 
   _setButtonState() {
-    const button = this._formElement.querySelector(this._settingsObject.submitButtonSelector);
+    this._button = this._formElement.querySelector(this._settingsObject.submitButtonSelector);
     if (this._formElement.checkValidity()) {
-      button.classList.remove(this._settingsObject.inactiveButtonClass);
-      button.disabled = false;
+      this._button.classList.remove(this._settingsObject.inactiveButtonClass);
+      this._button.disabled = false;
     } else {
-      button.classList.add(this._settingsObject.inactiveButtonClass);
-      button.disabled = true;
+      this._button.classList.add(this._settingsObject.inactiveButtonClass);
+      this._button.disabled = true;
     }
   }
 
@@ -40,12 +40,16 @@ export class FormValidator {
 
     this._setButtonState();
     inputList.forEach(inputElement => {
-      this._hideError(inputElement); // удаление ошибок при открытии попапа, чтобы их не было до момента ввода данных
       inputElement.addEventListener('input', () => {
         this._chekInputValidity(inputElement);
         this._setButtonState();
       });
     });
+  }
+
+  resetValidate(inputElement) {
+    this._setButtonState();
+    this._hideError(inputElement);
   }
 
   enableValidation() {

@@ -1,4 +1,4 @@
-import { openPopup } from './index.js';
+// import { openPopup } from './index.js';
 
 //для попапа предосмотра картинки
 const imagePopup = document.querySelector('.popup_type_image');
@@ -6,10 +6,11 @@ const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
 
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, openPopup) {
     this._link = data.link;
     this._title = data.name;
     this._cardSelector = cardSelector;
+    this._openPopup = openPopup;
   }
 
   _likeToItem() {
@@ -18,13 +19,14 @@ export class Card {
 
   _removeToItem() {
     this._element.remove();
+    this._element = null;
   }
 
   _openImagePopup() {
     popupImage.src = this._link;
     popupImage.alt = this._title;
     popupCaption.textContent = this._title;
-    openPopup(imagePopup);
+    this._openPopup(imagePopup);
   }
 
   _setEventListeners() {
