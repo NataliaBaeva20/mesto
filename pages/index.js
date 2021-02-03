@@ -4,10 +4,19 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
-import { initialCards, validationConfig, cardsContainer, editButton, addButton, nameInput, jobInput, editPopupElement, addPopupElement, imagePopupElement, formEditElement, formAddElement, inputCardNameElement, inputCardLinkElement, profileTitle, profileSubtitle } from '../utils/constants.js';
+import { initialCards,
+  validationConfig,
+  cardsContainer,
+  editButton,
+  addButton,
+  editPopupSelector,
+  addPopupSelector,
+  imagePopupSelector,
+  formEditElement,
+  formAddElement } from '../utils/constants.js';
 
 
-const fullSizeImage = new PopupWithImage(imagePopupElement);
+const fullSizeImage = new PopupWithImage(imagePopupSelector);
 
 // функция создания карточки
 function createCard(item) {
@@ -40,10 +49,10 @@ validFormEdit.enableValidation();
 
 
 
-// СОЗДАНИЕ ЭКЗЕМПЛЯРА для popup add
+// создание экземпляра для popup add
 
 const addPopup = new PopupWithForm({
-  popupSelector: addPopupElement,
+  popupSelector: addPopupSelector,
 
   // объект, который мы передадим при вызове handleFormSubmit
   // окажется на месте параметра formData
@@ -55,17 +64,15 @@ const addPopup = new PopupWithForm({
 addButton.addEventListener('click', function () {
   addPopup.open();
   addPopup.setEventListeners();
-
-  validFormAdd.resetValidate(inputCardNameElement); // удаление ошибок при открытии попапа
-  validFormAdd.resetValidate(inputCardLinkElement);
+  validFormAdd.resetValidate(); // удаление ошибок при открытии попапа
 });
 
 
-const userInfo = new UserInfo({ nameSelector: profileTitle, infoSelector: profileSubtitle});
+const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
 
 // создание экземпляра для popup edit
 const editPopup = new PopupWithForm({
-  popupSelector: editPopupElement,
+  popupSelector: editPopupSelector,
   handleFormSubmit: (data) => {
     userInfo.setUserInfo(data);
   }
@@ -78,6 +85,5 @@ editButton.addEventListener('click', function () {
   const infoProfile = userInfo.getUserInfo();
   userInfo.openUseInfo(infoProfile);
 
-  validFormEdit.resetValidate(nameInput); // удаление ошибок при открытии попапа
-  validFormEdit.resetValidate(jobInput);
+  validFormEdit.resetValidate();
 });

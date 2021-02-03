@@ -41,15 +41,9 @@ export const addButton = document.querySelector('.profile__add-btn');
 export const nameInput = document.querySelector('.form__input_value_name');
 export const jobInput = document.querySelector('.form__input_value_job');
 
-export const editPopupElement = document.querySelector('.popup_type_edit');
-export const addPopupElement  = document.querySelector('.popup_type_add');
-export const imagePopupElement = document.querySelector('.popup_type_image');
+export const editPopupSelector = '.popup_type_edit';
+export const addPopupSelector  = '.popup_type_add';
+export const imagePopupSelector = '.popup_type_image';
 
 export const formEditElement = document.querySelector('.form_type_edit');
 export const formAddElement = document.querySelector('.form_type_add');
-
-export const inputCardNameElement = document.querySelector('.form__input_value_card-name');
-export const inputCardLinkElement = document.querySelector('.form__input_value_card-link');
-
-export const profileTitle = '.profile__title';
-export const profileSubtitle = '.profile__subtitle';

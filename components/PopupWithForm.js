@@ -3,7 +3,7 @@ import { Popup } from '../components/Popup.js';
 export class PopupWithForm extends Popup {
   constructor({popupSelector, handleFormSubmit}) {
     super(popupSelector);
-    this._form = popupSelector.querySelector('.form');
+    this._form = document.querySelector(popupSelector).querySelector('.form');
     this._handleFormSubmit = handleFormSubmit;
     this._submitFormBind = this._submitForm.bind(this);
   }
@@ -18,9 +18,7 @@ export class PopupWithForm extends Popup {
     // добавляем в этот объект значения всех полей
     this._inputList.forEach((input) => {
       this._formValues[input.name] = input.value;
-      console.log(input.value);
     });
-    console.log(this._formValues);
     return this._formValues;
   }
 
