@@ -1,14 +1,9 @@
-//для попапа предосмотра картинки
-const imagePopup = document.querySelector('.popup_type_image');
-const popupImage = document.querySelector('.popup__image');
-const popupCaption = document.querySelector('.popup__caption');
-
 export class Card {
-  constructor(data, cardSelector, openPopup) {
+  constructor({data, handleCardClick}, cardSelector) {
     this._link = data.link;
     this._title = data.name;
     this._cardSelector = cardSelector;
-    this._openPopup = openPopup;
+    this._openPopupImage = handleCardClick;
   }
 
   _likeToItem() {
@@ -18,13 +13,6 @@ export class Card {
   _removeToItem() {
     this._element.remove();
     this._element = null;
-  }
-
-  _openImagePopup() {
-    popupImage.src = this._link;
-    popupImage.alt = this._title;
-    popupCaption.textContent = this._title;
-    this._openPopup(imagePopup);
   }
 
   _setEventListeners() {
@@ -37,7 +25,7 @@ export class Card {
     });
 
     this._element.querySelector('.card__image').addEventListener('click', () => {
-      this._openImagePopup();
+      this._openPopupImage();
     });
   }
 

@@ -37,7 +37,7 @@
       <h3 class="popup__title">Редактировать профиль</h3>
 
       <form class="form form_type_edit" name="edit" novalidate>
-        <input id="name-profile" type="text" name="name" class="form__input form__input_value_name" placeholder="Имя пользователя" required minlength="2" maxlength="40">
+        <input id="name-profile" type="text" name="nameProfile" class="form__input form__input_value_name" placeholder="Имя пользователя" required minlength="2" maxlength="40">
         <span class="form__input-error name-profile-error"></span>
         <input id="job-profile" type="text" name="job" class="form__input form__input_value_job" placeholder="О себе" required minlength="2" maxlength="200">
         <span class="form__input-error job-profile-error"></span>
@@ -52,9 +52,9 @@
       <h3 class="popup__title popup__title_type_add">Новое место</h3>
 
       <form class="form form_type_add" name="add" novalidate>
-        <input  id="name-card" type="text" name="mestoName" class="form__input form__input_type_add form__input_value_card-name" placeholder="Название" required minlength="2" maxlength="30">
+        <input  id="name-card" type="text" name="name" class="form__input form__input_type_add form__input_value_card-name" placeholder="Название" required minlength="2" maxlength="30">
         <span class="form__input-error name-card-error"></span>
-        <input id="email-card" type="url" name="mestoLink" class="form__input form__input_type_add form__input_value_card-link" placeholder="Ссылка на картинку" required>
+        <input id="email-card" type="url" name="link" class="form__input form__input_type_add form__input_value_card-link" placeholder="Ссылка на картинку" required>
         <span class="form__input-error email-card-error"></span>
         <button type="submit" class="form__btn form__btn_type_add">Создать</button>
       </form>
@@ -81,7 +81,7 @@
     </article>
   </template>
 
-  <script type="module" src="./script/index.js"></script>
+  <script type="module" src="./pages/index.js"></script>
 
 </body>
 </html>
