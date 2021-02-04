@@ -15,6 +15,7 @@ import { initialCards,
   formEditElement,
   formAddElement } from '../utils/constants.js';
 
+import './index.css'
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
 

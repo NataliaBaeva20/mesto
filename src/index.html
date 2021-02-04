@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="body">
   <div class="page">
@@ -14,13 +13,13 @@
 
     <main class="content page__content">
       <section class="profile content__section">
-        <img src="./image/avatar.jpg" alt="Фото профиля" class="profile__image">
+        <img src="<%=require('./image/avatar.jpg')%>" alt="Фото профиля" class="profile__image">
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
           <button type="button" class="profile__edit-btn" aria-label="Редактировать"></button>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <button type="button" class="profile__add-btn" aria-label="Добавить"><img src="./image/add-btn.svg" alt="Изображение кнопки добавить" class="profile__add-btn-image"></button>
+        <button type="button" class="profile__add-btn" aria-label="Добавить"><img src="<%=require('./image/add-btn.svg')%>" alt="Изображение кнопки добавить" class="profile__add-btn-image"></button>
       </section>
       <section class="cards content__section">
       </section>
@@ -80,8 +79,6 @@
       </div>
     </article>
   </template>
-
-  <script type="module" src="./pages/index.js"></script>
 
 </body>
 </html>
