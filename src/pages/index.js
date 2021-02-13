@@ -5,8 +5,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-import { initialCards,
-  validationConfig,
+import { validationConfig,
   cardsContainer,
   editButton,
   addButton,
@@ -21,26 +20,14 @@ import './index.css'
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
 
 // функция создания карточки
-function createCard(item) {
+function createCard(item, cardList) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
   }}, '.card-template'); //создаем экземпляр карточки
 
   const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
-
   cardList.setItem(cardElement); //добавляем в DOM
 }
-
-const cardList = new Section ({
-    data: initialCards,
-    renderer: (item) => {
-      createCard(item);
-    }
-  },
-  cardsContainer
-);
-
-cardList.renderItems();
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
@@ -103,4 +90,19 @@ editButton.addEventListener('click', function () {
   userInfo.openUseInfo(infoProfile);
 
   validFormEdit.resetValidate();
+});
+
+api.getInitialCards()
+.then((data) => {
+  // console.log(data);
+  const cardList = new Section ({
+    data: data,
+    renderer: (item) => {
+      createCard(item, cardList);
+    }
+  },
+  cardsContainer
+);
+
+cardList.renderItems();
 });

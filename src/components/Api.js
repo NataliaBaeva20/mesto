@@ -4,9 +4,14 @@ export class Api {
     this._headers = options.headers
   }
 
-  // getInitialCards() {
-  //
-  // }
+  getInitialCards() {
+    return fetch(`${this._url}/cards`, {
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
+      }
+    })
+    .then(res => res.json());
+  }
 
   getUserInfo() {
      return fetch(`${this._url}/users/me`, {
