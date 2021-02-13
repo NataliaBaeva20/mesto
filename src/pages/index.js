@@ -4,6 +4,7 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
+import { Api } from '../components/Api.js';
 import { initialCards,
   validationConfig,
   cardsContainer,
@@ -69,6 +70,20 @@ addButton.addEventListener('click', function () {
 });
 
 
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-20',
+  headers: {
+    authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+    'Content-Type': 'application/json'
+  }
+});
+
+api.getUserInfo()
+  .then((data) => {
+    userInfo.setUserInfo({nameProfile: data.name, job: data.about});
+    document.querySelector('.profile__image').src = data.avatar;
+  });
+
 const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
 
 // создание экземпляра для popup edit
@@ -76,6 +91,7 @@ const editPopup = new PopupWithForm({
   popupSelector: editPopupSelector,
   handleFormSubmit: (data) => {
     userInfo.setUserInfo(data);
+    api.editUserInfo(data);
   }
 });
 
