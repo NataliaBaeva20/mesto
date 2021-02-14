@@ -5,7 +5,8 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-import { validationConfig,
+import { initialCards,
+  validationConfig,
   cardsContainer,
   editButton,
   addButton,
@@ -17,17 +18,40 @@ import { validationConfig,
 
 import './index.css'
 
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-20',
+  headers: {
+    authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+    'Content-Type': 'application/json'
+  }
+});
+
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
 
 // функция создания карточки
-function createCard(item, cardList) {
+function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
   }}, '.card-template'); //создаем экземпляр карточки
-
-  const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
-  cardList.setItem(cardElement); //добавляем в DOM
+  return card.generateCard();
+  // const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
+  // cardList.setItem(cardElement); //добавляем в DOM
 }
+
+api.getInitialCards()
+  .then((cards) => {
+    console.log(cards);
+    const cardList = new Section ({
+      data: cards,
+      renderer: (item) => {
+        cardList.setItem(createCard(item));
+        // createCard(item);
+      }
+    },
+    cardsContainer
+    );
+    cardList.renderItems();
+  });
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
@@ -43,10 +67,12 @@ validFormEdit.enableValidation();
 const addPopup = new PopupWithForm({
   popupSelector: addPopupSelector,
 
-  // объект, который мы передадим при вызове handleFormSubmit
-  // окажется на месте параметра formData
+  // объект, который мы передадим при вызове handleFormSubmit окажется на месте параметра formData
   handleFormSubmit: (formData) => {
-    createCard(formData);
+    api.postCard(formData)
+      .then((data) => {
+        document.querySelector('.cards').prepend(createCard(data));
+      });
   }
 });
 
@@ -54,15 +80,6 @@ addButton.addEventListener('click', function () {
   addPopup.open();
   addPopup.setEventListeners();
   validFormAdd.resetValidate(); // удаление ошибок при открытии попапа
-});
-
-
-const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-20',
-  headers: {
-    authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-    'Content-Type': 'application/json'
-  }
 });
 
 api.getUserInfo()
@@ -92,17 +109,12 @@ editButton.addEventListener('click', function () {
   validFormEdit.resetValidate();
 });
 
-api.getInitialCards()
-.then((data) => {
-  // console.log(data);
-  const cardList = new Section ({
-    data: data,
-    renderer: (item) => {
-      createCard(item, cardList);
-    }
-  },
-  cardsContainer
-);
-
-cardList.renderItems();
-});
+// const cardList = new Section ({
+//       data: initialCards,
+//       renderer: (item) => {
+//         createCard(item);
+//       }
+//     },
+//     cardsContainer
+//   );
+// cardList.renderItems();

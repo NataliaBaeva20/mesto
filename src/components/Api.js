@@ -10,7 +10,27 @@ export class Api {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
       }
     })
-    .then(res => res.json());
+    .then((res) =>  {
+      return res.json();
+    });
+  }
+
+  postCard(card) {
+   return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: card.name,
+        link: card.link
+      })
+    })
+      .then(res => res.json());
+      // .then((data) => {
+      //   console.log(data);
+      // });
   }
 
   getUserInfo() {

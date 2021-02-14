@@ -3,6 +3,7 @@ export class Section {
   //                 CSS-селектор контейнера. В него мы будем вставлять элементы разметки.
   constructor({ data, renderer }, containerSelector) {
     this._initialCards = data;
+    // debugger;
     this._container = document.querySelector(containerSelector);
     this._renderer = renderer;
   }
