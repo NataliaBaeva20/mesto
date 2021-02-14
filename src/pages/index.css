@@ -71,7 +71,10 @@
 @import url(../blocks/popup/__figure/popup__figure.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__caption/popup__caption.css);
-
+/* popup_type_delete*/
+@import url(../blocks/popup/__title/_type/popup__title_type_delete.css);
+/* form_type_delete */
+@import url(../blocks/form/__btn/_type/form__btn_type_delete.css);
 
 /*footer*/
 @import url(../blocks/footer/__author/footer__author.css);

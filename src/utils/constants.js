@@ -44,6 +44,7 @@ export const jobInput = document.querySelector('.form__input_value_job');
 export const editPopupSelector = '.popup_type_edit';
 export const addPopupSelector  = '.popup_type_add';
 export const imagePopupSelector = '.popup_type_image';
+export const deletePopupSelector = '.popup_type_delete';
 
 export const formEditElement = document.querySelector('.form_type_edit');
 export const formAddElement = document.querySelector('.form_type_add');

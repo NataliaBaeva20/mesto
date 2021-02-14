@@ -13,6 +13,7 @@ import { initialCards,
   editPopupSelector,
   addPopupSelector,
   imagePopupSelector,
+  deletePopupSelector,
   formEditElement,
   formAddElement } from '../utils/constants.js';
 
@@ -27,12 +28,24 @@ const api = new Api({
 });
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
+const deletePopup = new PopupWithForm({
+  popupSelector: deletePopupSelector,
+  handleFormSubmit: () => {
+
+  }
+});
 
 // функция создания карточки
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
-  }}, '.card-template'); //создаем экземпляр карточки
+    fullSizeImage.setEventListeners();
+    },
+    handleTrashButtonClick: () => {
+      deletePopup.open();
+      deletePopup.setEventListeners();
+    }
+}, '.card-template'); //создаем экземпляр карточки
   return card.generateCard();
   // const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
   // cardList.setItem(cardElement); //добавляем в DOM
@@ -46,6 +59,8 @@ api.getInitialCards()
       renderer: (item) => {
         cardList.setItem(createCard(item));
         // createCard(item);
+        document.querySelector('.card__like-count').textContent = item.likes.length;
+        console.log(item.likes.length);
       }
     },
     cardsContainer

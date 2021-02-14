@@ -1,9 +1,10 @@
 export class Card {
-  constructor({data, handleCardClick}, cardSelector) {
+  constructor({data, handleCardClick, handleTrashButtonClick}, cardSelector) {
     this._link = data.link;
     this._title = data.name;
     this._cardSelector = cardSelector;
     this._openPopupImage = handleCardClick;
+    this._handleTrashButtonClick = handleTrashButtonClick;
   }
 
   _likeToItem() {
@@ -21,7 +22,8 @@ export class Card {
     });
 
     this._element.querySelector('.card__trash-btn').addEventListener('click', () => {
-      this._removeToItem();
+      // this._removeToItem();
+      this._handleTrashButtonClick();
     });
 
     this._element.querySelector('.card__image').addEventListener('click', () => {
