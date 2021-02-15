@@ -142,14 +142,18 @@ validFormAvatar.enableValidation();
 
 const avatarPopup = new PopupWithForm({
   popupSelector: avatarPopupSelector,
-  handleFormSubmit: () => {
-
+  handleFormSubmit: (data) => {
+    // отправка на сервер запроса на изменение аватара
+    api.editAvatarUser(data)
+      .then((data) => {
+        //если ответ успешный меняем ссылку аватара в профиле
+        imageAvatar.src = data.avatar;
+      });
   }
 });
 
 imageAvatar.addEventListener('click', function () {
   avatarPopup.open();
   avatarPopup.setEventListeners();
-
   validFormAvatar.resetValidate();
 });

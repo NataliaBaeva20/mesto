@@ -28,9 +28,6 @@ export class Api {
       })
     })
       .then(res => res.json());
-      // .then((data) => {
-      //   console.log(data);
-      // });
   }
 
   getUserInfo() {
@@ -58,5 +55,18 @@ export class Api {
       .then((data) => {
         console.log(data);
       });
+  }
+  editAvatarUser(info) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        avatar: info.avatar
+      })
+    })
+      .then(res => res.json());
   }
 }
