@@ -2,6 +2,7 @@ export class Card {
   constructor({data, handleCardClick, handleTrashButtonClick}, cardSelector) {
     this._link = data.link;
     this._title = data.name;
+    this._idOwner = data.owner._id;
     this._cardSelector = cardSelector;
     this._openPopupImage = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
@@ -52,6 +53,9 @@ export class Card {
     cardImage.src = this._link;
     cardImage.alt = this._title;
     this._element.querySelector('.card__title').textContent = this._title;
+    if (this._idOwner == 'c31535636f4703fab2691925') {
+        this._element.querySelector('.card__trash-btn').style.display = 'block';
+      }
 
     return this._element; // вернем элемент наружу
   }

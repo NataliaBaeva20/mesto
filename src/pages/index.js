@@ -65,7 +65,14 @@ api.getInitialCards()
         cardList.setItem(createCard(item));
         // createCard(item);
         // document.querySelector('.card__like-count').textContent = item.likes.length;
-        console.log(item.likes.length);
+        // console.log(item.likes.length);
+        // console.log(item.owner._id);
+
+        
+        // if (item.owner._id == 'c31535636f4703fab2691925') {
+        //   console.log('моя карточка');
+        //   console.log(item);
+        // }
       }
     },
     cardsContainer
