@@ -37,6 +37,7 @@ export const cardsContainer = '.cards';
 
 export const editButton = document.querySelector('.profile__edit-btn');
 export const addButton = document.querySelector('.profile__add-btn');
+export const imageAvatar = document.querySelector('.profile__image');
 
 export const nameInput = document.querySelector('.form__input_value_name');
 export const jobInput = document.querySelector('.form__input_value_job');
@@ -45,6 +46,8 @@ export const editPopupSelector = '.popup_type_edit';
 export const addPopupSelector  = '.popup_type_add';
 export const imagePopupSelector = '.popup_type_image';
 export const deletePopupSelector = '.popup_type_delete';
+export const avatarPopupSelector = '.popup_type_avatar';
 
 export const formEditElement = document.querySelector('.form_type_edit');
 export const formAddElement = document.querySelector('.form_type_add');
+export const formAvararElement = document.querySelector('.form_type_avatar');

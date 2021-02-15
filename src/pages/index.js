@@ -10,12 +10,15 @@ import { initialCards,
   cardsContainer,
   editButton,
   addButton,
+  imageAvatar,
   editPopupSelector,
   addPopupSelector,
   imagePopupSelector,
   deletePopupSelector,
+  avatarPopupSelector,
   formEditElement,
-  formAddElement } from '../utils/constants.js';
+  formAddElement,
+  formAvararElement } from '../utils/constants.js';
 
 import './index.css'
 
@@ -59,7 +62,7 @@ api.getInitialCards()
       renderer: (item) => {
         cardList.setItem(createCard(item));
         // createCard(item);
-        document.querySelector('.card__like-count').textContent = item.likes.length;
+        // document.querySelector('.card__like-count').textContent = item.likes.length;
         console.log(item.likes.length);
       }
     },
@@ -133,3 +136,20 @@ editButton.addEventListener('click', function () {
 //     cardsContainer
 //   );
 // cardList.renderItems();
+
+const validFormAvatar = new FormValidator(validationConfig, formAvararElement);
+validFormAvatar.enableValidation();
+
+const avatarPopup = new PopupWithForm({
+  popupSelector: avatarPopupSelector,
+  handleFormSubmit: () => {
+
+  }
+});
+
+imageAvatar.addEventListener('click', function () {
+  avatarPopup.open();
+  avatarPopup.setEventListeners();
+
+  validFormAvatar.resetValidate();
+});
