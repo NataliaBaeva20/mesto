@@ -42,6 +42,7 @@ export const imageAvatar = document.querySelector('.profile__image');
 
 export const nameInput = document.querySelector('.form__input_value_name');
 export const jobInput = document.querySelector('.form__input_value_job');
+export const avatarInput = document.querySelector('.form__input_value_avatar');
 
 export const editPopupSelector = '.popup_type_edit';
 export const addPopupSelector  = '.popup_type_add';

@@ -19,7 +19,8 @@ import { initialCards,
   avatarPopupSelector,
   formEditElement,
   formAddElement,
-  formAvararElement } from '../utils/constants.js';
+  formAvararElement,
+  avatarInput } from '../utils/constants.js';
 
 import './index.css'
 
@@ -156,5 +157,6 @@ const avatarPopup = new PopupWithForm({
 avatarButton.addEventListener('click', function () {
   avatarPopup.open();
   avatarPopup.setEventListeners();
+  avatarInput.value = imageAvatar.src;
   validFormAvatar.resetValidate();
 });
