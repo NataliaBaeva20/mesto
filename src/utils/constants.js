@@ -37,6 +37,7 @@ export const cardsContainer = '.cards';
 
 export const editButton = document.querySelector('.profile__edit-btn');
 export const addButton = document.querySelector('.profile__add-btn');
+export const avatarButton = document.querySelector('.profile__image-block');
 export const imageAvatar = document.querySelector('.profile__image');
 
 export const nameInput = document.querySelector('.form__input_value_name');

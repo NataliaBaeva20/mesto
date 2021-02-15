@@ -10,6 +10,7 @@ import { initialCards,
   cardsContainer,
   editButton,
   addButton,
+  avatarButton,
   imageAvatar,
   editPopupSelector,
   addPopupSelector,
@@ -152,7 +153,7 @@ const avatarPopup = new PopupWithForm({
   }
 });
 
-imageAvatar.addEventListener('click', function () {
+avatarButton.addEventListener('click', function () {
   avatarPopup.open();
   avatarPopup.setEventListeners();
   validFormAvatar.resetValidate();
