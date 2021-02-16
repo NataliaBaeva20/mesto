@@ -24,6 +24,8 @@ import { initialCards,
 
 import './index.css'
 
+let aaa;
+
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-20',
   headers: {
@@ -33,12 +35,20 @@ const api = new Api({
 });
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
-const deletePopup = new PopupWithForm({
-  popupSelector: deletePopupSelector,
-  handleFormSubmit: () => {
 
-  }
-});
+
+// const deletePopup = new PopupWithForm({
+//   popupSelector: deletePopupSelector,
+//   handleFormSubmit: () => {
+//     api.deleteCard(aaa).then((data) => {
+//       console.log(data);
+
+//     });
+//     console.log(aaa);
+//   }
+// });
+
+
 
 // функция создания карточки
 function createCard(item) {
@@ -47,10 +57,20 @@ function createCard(item) {
     fullSizeImage.setEventListeners();
     },
     handleTrashButtonClick: () => {
+      aaa = item._id;
+      const deletePopup = new PopupWithForm({
+        popupSelector: deletePopupSelector,
+        handleFormSubmit: () => {
+          api.deleteCard(aaa).then((data) => {
+            console.log(data);
+            card._removeToItem();
+          });
+        }
+      });
       deletePopup.open();
       deletePopup.setEventListeners();
     }
-}, '.card-template'); //создаем экземпляр карточки
+}, '.card-template', api); //создаем экземпляр карточки
   return card.generateCard();
   // const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
   // cardList.setItem(cardElement); //добавляем в DOM
@@ -63,16 +83,6 @@ api.getInitialCards()
       data: cards,
       renderer: (item) => {
         cardList.setItem(createCard(item));
-        // createCard(item);
-        // document.querySelector('.card__like-count').textContent = item.likes.length;
-        // console.log(item.likes.length);
-        // console.log(item.owner._id);
-
-        
-        // if (item.owner._id == 'c31535636f4703fab2691925') {
-        //   console.log('моя карточка');
-        //   console.log(item);
-        // }
       }
     },
     cardsContainer

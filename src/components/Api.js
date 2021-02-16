@@ -5,7 +5,8 @@ export class Api {
   }
 
   getInitialCards() {
-    return fetch(`${this._url}/cards`, {
+    return fetch(`${this._url}/cards/`, {
+      method: 'GET',
       headers: {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
       }
@@ -26,6 +27,36 @@ export class Api {
         name: card.name,
         link: card.link
       })
+    })
+      .then(res => res.json());
+  }
+
+  deleteCard(id) {
+    return fetch(`${this._url}/cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+      }
+    })
+      .then(res => res.json());
+  }
+
+  setLike(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      method: 'PUT',
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+      }
+    })
+      .then(res => res.json());
+  }
+
+  deleteLike(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
+      }
     })
       .then(res => res.json());
   }
@@ -56,6 +87,7 @@ export class Api {
         console.log(data);
       });
   }
+
   editAvatarUser(info) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
