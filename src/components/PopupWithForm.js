@@ -6,6 +6,7 @@ export class PopupWithForm extends Popup {
     this._form = document.querySelector(popupSelector).querySelector('.form');
     this._handleFormSubmit = handleFormSubmit;
     this._submitFormBind = this._submitForm.bind(this);
+    this._submitFormDeleteBind = this._submitFormDelete.bind(this);
   }
 
   _getInputValues() {
@@ -33,10 +34,27 @@ export class PopupWithForm extends Popup {
     super.close();
     this._form.reset(); // несохраненные данные при повторном открытии popup удаляются
     this._form.removeEventListener('submit', this._submitFormBind);
+    this._form.removeEventListener('submit', this._submitFormDeleteBind);
   }
 
   setEventListeners() {
     super.setEventListeners();
     this._form.addEventListener('submit', this._submitFormBind);
+  }
+
+  _submitFormDelete(evt) {
+    evt.preventDefault();
+    this._deleteCard();
+    this.close();
+  }
+
+  _setEventListenerButtonDelete() {
+    super.setEventListeners();
+    this._form.addEventListener('submit', this._submitFormDeleteBind);
+  }
+
+  setSubmitHandler(deleteCard) {
+    this._setEventListenerButtonDelete();
+    this._deleteCard = deleteCard;
   }
 }

@@ -14,6 +14,9 @@ export class Api {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(data => {
+      return data;
     });
   }
 

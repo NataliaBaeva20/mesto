@@ -24,7 +24,7 @@ import { validationConfig,
   buttonFormEdit,
   buttonFormAvatar } from '../utils/constants.js';
 
-import './index.css'
+import './index.css';
 
 function renderLoading(isLoading, buttonElement, text) {
   if (isLoading) {
@@ -44,46 +44,37 @@ const api = new Api({
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
 
-// const deletePopup = new PopupWithForm({
-//   popupSelector: deletePopupSelector,
-//   handleFormSubmit: () => {
-//     api.deleteCard(aaa).then((data) => {
-//       console.log(data);
+const deletePopup = new PopupWithForm({
+  popupSelector: deletePopupSelector
+});
 
-//     });
-//     console.log(aaa);
-//   }
-// });
+function deleteCardOnClick(card, cardId) {
+  deletePopup.open();
+  deletePopup.setSubmitHandler(() => {
+    api.deleteCard(cardId).then((data) => {
+      console.log(data);
+      card._removeToItem();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  });
+}
 
-// функция создания карточки
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
     fullSizeImage.setEventListeners();
     },
     handleTrashButtonClick: () => {
-      const deletePopup = new PopupWithForm({
-        popupSelector: deletePopupSelector,
-        handleFormSubmit: () => {
-          api.deleteCard(item._id).then((data) => {
-            console.log(data);
-            card._removeToItem();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        }
-      });
-      deletePopup.open();
-      deletePopup.setEventListeners();
+      deleteCardOnClick(card, item._id);
     }
-}, '.card-template', api); //создаем экземпляр карточки
+  }, '.card-template', api); //создаем экземпляр карточки
   return card.generateCard();
 }
 
 api.getInitialCards()
   .then((cards) => {
-    console.log(cards);
     const cardList = new Section ({
       data: cards,
       renderer: (item) => {
@@ -97,6 +88,7 @@ api.getInitialCards()
   .catch((err) => {
     console.log(err);
   });
+
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
