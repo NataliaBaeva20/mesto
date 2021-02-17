@@ -1,5 +1,5 @@
 export class Card {
-  constructor({data, handleCardClick, handleTrashButtonClick, handleLike}, cardSelector, api) {
+  constructor({data, handleCardClick, handleTrashButtonClick, handleLikeButton}, cardSelector, api) {
     this._link = data.link;
     this._title = data.name;
     this._idCard = data._id;
@@ -8,55 +8,17 @@ export class Card {
     this._cardSelector = cardSelector;
     this._openPopupImage = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
-    this._handleLike = handleLike;
-    this._api = api;
+    this._handleLikeButton = handleLikeButton;
   }
 
-  _addLike() {
-    this._api.setLike(this._idCard)
-      .then((data) => {
-        this._element.querySelector('.card__like').classList.add('card__like_active');
-        this._element.querySelector('.card__like-count').textContent = data.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  visibleLike(data) {
+    this._element.querySelector('.card__like').classList.add('card__like_active');
+    this._element.querySelector('.card__like-count').textContent = data.likes.length;
   }
 
-  _deleteLike() {
-    this._api.deleteLike(this._idCard)
-      .then((data) => {
-        this._element.querySelector('.card__like').classList.remove('card__like_active');
-        this._element.querySelector('.card__like-count').textContent = data.likes.length;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  _likeToItem() {
-    //отправляем запрос на сервес, чтобы достать массив лайков для проверки есть лайк или нет от нас
-    this._api.getInitialCards()
-      .then((data) => {
-        data.forEach(item => {
-          if (item._id == this._idCard) {
-            //если массив лайков пустой, то добавляем лайк
-            if(item.likes == 0) {
-              this._addLike();
-            }
-            //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id
-            const proverka = item.likes.some(function(element) {
-              return element._id == 'c31535636f4703fab2691925';
-            });
-            // вызываем функцию в зависисоти от проверти на наше id
-            if (proverka) {
-              this._deleteLike();
-            } else {
-              this._addLike();
-            }
-          }
-        });
-      });
+  hiddenLike(data) {
+    this._element.querySelector('.card__like').classList.remove('card__like_active');
+    this._element.querySelector('.card__like-count').textContent = data.likes.length;
   }
 
   _showLike() {
@@ -74,7 +36,7 @@ export class Card {
 
   _setEventListeners() {
     this._element.querySelector('.card__like').addEventListener('click', () => {
-      this._likeToItem();
+      this._handleLikeButton();
     });
 
     this._element.querySelector('.card__trash-btn').addEventListener('click', () => {

@@ -63,6 +63,44 @@ function deleteCardOnClick(card, cardId) {
   });
 }
 
+function setLike(card, cardId) {
+  api.setLike(cardId)
+    .then((data) => {
+      card.visibleLike(data);
+    });
+}
+
+function deleteLike(card, cardId) {
+  api.deleteLike(cardId)
+    .then((data) => {
+      card.hiddenLike(data);
+    });
+}
+
+function handleLikeOnCard(card, cardId) {
+  api.getInitialCards()
+    .then((data) => {
+      data.forEach(item => {
+        if (item._id == cardId) {
+          //если массив лайков пустой, то добавляем лайк
+          if(item.likes == 0) {
+            setLike(card, cardId);
+          }
+          //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id
+          const proverka = item.likes.some(function(item) {
+            return item._id == 'c31535636f4703fab2691925';
+          });
+          // вызываем функцию в зависисоти от проверти на наше id
+          if (proverka) {
+            deleteLike(card, cardId);
+          } else {
+            setLike(card, cardId);
+          }
+        }
+      });
+    });
+}
+
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
@@ -70,21 +108,24 @@ function createCard(item) {
     },
     handleTrashButtonClick: () => {
       deleteCardOnClick(card, item._id);
+    },
+    handleLikeButton: () => {
+      handleLikeOnCard(card, item._id);
     }
-  }, '.card-template', api); //создаем экземпляр карточки
+  }, '.card-template'); //создаем экземпляр карточки
   return card.generateCard();
 }
 
 function createCardSection (item) {
   const cardList = new Section ({
-          data: item,
-          renderer: (item) => {
-            cardList.setItem(createCard(item));
-          }
-        },
-        cardsContainer
-        );
-        return cardList;
+        data: item,
+        renderer: (item) => {
+          cardList.setItem(createCard(item));
+        }
+      },
+      cardsContainer
+      );
+      return cardList;
 }
 
 api.getInitialCards()
