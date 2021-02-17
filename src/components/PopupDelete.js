@@ -18,14 +18,8 @@ export class PopupDelete extends Popup {
     this.close();
   }
 
-  _setEventListenerButtonDelete() {
-    super.setEventListeners();
+  setSubmitHandler(deleteCard) {
+    this._deleteCard = deleteCard;
     this._form.addEventListener('submit', this._submitFormDeleteBind);
   }
-
-  setSubmitHandler(deleteCard) {
-    this._setEventListenerButtonDelete();
-    this._deleteCard = deleteCard;
-  }
 }
-

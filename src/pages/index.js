@@ -40,11 +40,12 @@ fullSizeImage.setEventListeners();
 const deletePopup = new PopupDelete({
   popupSelector: deletePopupSelector
 });
+deletePopup.setEventListeners();
 
 const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle', avatarSelector: '.profile__image'});
 
-const classList = new Section({ renderer: (item) => {
-  classList.setItem(createCard(item));
+const cardList = new Section({ renderer: (item) => {
+  cardList.setItem(createCard(item));
 }},
 cardsContainer);
 
@@ -136,7 +137,7 @@ api.getUserInfo()
 
 api.getInitialCards()
   .then((cards) => {
-    classList.renderItems(cards);
+    cardList.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);
@@ -161,7 +162,7 @@ const addPopup = new PopupWithForm({
     renderLoading(true, buttonFormAdd, '...');
     api.postCard(formData)
       .then((data) => {
-        classList.setItem(createCard(data));
+        cardList.setItem(createCard(data));
       })
       .catch((err) => {
         console.log(err);

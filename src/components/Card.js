@@ -10,22 +10,26 @@ export class Card {
     this._handleTrashButtonClick = handleTrashButtonClick;
     this._handleLikeButton = handleLikeButton;
     this._userId = userId;
+    this._element = this._getTemplate();
+    this._like = this._element.querySelector('.card__like');
+    this._likeCount = this._element.querySelector('.card__like-count');
+    this._buttonTrash = this._element.querySelector('.card__trash-btn');
   }
 
   visibleLike(data) {
-    this._element.querySelector('.card__like').classList.add('card__like_active');
-    this._element.querySelector('.card__like-count').textContent = data.likes.length;
+    this._like.classList.add('card__like_active');
+    this._likeCount.textContent = data.likes.length;
   }
 
   hiddenLike(data) {
-    this._element.querySelector('.card__like').classList.remove('card__like_active');
-    this._element.querySelector('.card__like-count').textContent = data.likes.length;
+    this._like.classList.remove('card__like_active');
+    this._likeCount.textContent = data.likes.length;
   }
 
   _showLike() {
     this._likes.forEach(like => {
       if(like._id == this._userId) {
-        this._element.querySelector('.card__like').classList.add('card__like_active');
+        this._like.classList.add('card__like_active');
       }
     });
   }
@@ -36,11 +40,11 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector('.card__like').addEventListener('click', () => {
+    this._like.addEventListener('click', () => {
       this._handleLikeButton();
     });
 
-    this._element.querySelector('.card__trash-btn').addEventListener('click', () => {
+    this._buttonTrash.addEventListener('click', () => {
       this._handleTrashButtonClick();
     });
 
@@ -62,7 +66,6 @@ export class Card {
   }
 
   generateCard() {
-    this._element = this._getTemplate(); //запись разментки в приватное поле _element
     this._setEventListeners();
     this._showLike();
 
@@ -71,9 +74,9 @@ export class Card {
     cardImage.src = this._link;
     cardImage.alt = this._title;
     this._element.querySelector('.card__title').textContent = this._title;
-    this._element.querySelector('.card__like-count').textContent = this._likes.length;
+    this._likeCount.textContent = this._likes.length;
     if (this._ownerId == this._userId) {
-        this._element.querySelector('.card__trash-btn').style.display = 'block';
+      this._buttonTrash.style.display = 'block';
       }
 
     return this._element; // вернем элемент наружу
