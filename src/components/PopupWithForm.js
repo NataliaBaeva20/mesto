@@ -10,9 +10,6 @@ export class PopupWithForm extends Popup {
   }
 
   _getInputValues() {
-    // достаем все элементы полей
-    // this._inputList = this._form.querySelectorAll('.form__input');
-
     // создаем пустой объект
     this._formValues = {};
 
