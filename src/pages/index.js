@@ -43,6 +43,11 @@ const deletePopup = new PopupDelete({
 
 const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
 
+const classList = new Section({ renderer: (item) => {
+  classList.setItem(createCard(item));
+}},
+cardsContainer);
+
 function renderLoading(isLoading, buttonElement, text) {
   if (isLoading) {
     buttonElement.textContent += text;
@@ -123,22 +128,9 @@ function createCard(item) {
   return card.generateCard();
 }
 
-function createCardSection (item) {
-  const cardList = new Section ({
-        data: item,
-        renderer: (item) => {
-          cardList.setItem(createCard(item));
-        }
-      },
-      cardsContainer
-      );
-      return cardList;
-}
-
 api.getInitialCards()
   .then((cards) => {
-    const arr = createCardSection(cards);
-    arr.renderItems();
+    classList.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);
@@ -169,8 +161,7 @@ const addPopup = new PopupWithForm({
     renderLoading(true, buttonFormAdd, '...');
     api.postCard(formData)
       .then((data) => {
-        const arr = createCardSection(data);
-        arr.setItem(createCard(data));
+        classList.setItem(createCard(data));
       })
       .catch((err) => {
         console.log(err);

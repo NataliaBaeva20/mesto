@@ -1,9 +1,7 @@
 export class Section {
   // в конструкторе: массив данных, которые потребуются для перебора;
   //                 CSS-селектор контейнера. В него мы будем вставлять элементы разметки.
-  constructor({ data, renderer }, containerSelector) {
-    this._initialCards = data;
-    // debugger;
+  constructor({ renderer }, containerSelector) {
     this._container = document.querySelector(containerSelector);
     this._renderer = renderer;
   }
@@ -12,8 +10,8 @@ export class Section {
     this._container.prepend(element);
   }
 
-  renderItems() {
-    this._initialCards.forEach((item) => {
+  renderItems(items) {
+    items.forEach((item) => {
       this._renderer(item);
     });
   }
