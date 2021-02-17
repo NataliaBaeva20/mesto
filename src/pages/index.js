@@ -37,6 +37,7 @@ const api = new Api({
 });
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
+fullSizeImage.setEventListeners();
 
 const deletePopup = new PopupDelete({
   popupSelector: deletePopupSelector
@@ -117,7 +118,6 @@ function handleLikeOnCard(card, cardId) {
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
-    fullSizeImage.setEventListeners();
     },
     handleTrashButtonClick: () => {
       deleteCardOnClick(card, item._id);
@@ -173,6 +173,7 @@ const addPopup = new PopupWithForm({
       });
   }
 });
+addPopup.setEventListeners();
 
 const editPopup = new PopupWithForm({
   popupSelector: editPopupSelector,
@@ -188,6 +189,7 @@ const editPopup = new PopupWithForm({
       });
   }
 });
+editPopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm({
   popupSelector: avatarPopupSelector,
@@ -197,7 +199,7 @@ const avatarPopup = new PopupWithForm({
     api.editAvatarUser(data)
       .then((data) => {
         //если ответ успешный меняем ссылку аватара в профиле
-        imageAvatar.src = data.avatar;
+        userInfo.setAvatarUser(data);
       })
       .catch((err) => {
         console.log(err);
@@ -207,25 +209,21 @@ const avatarPopup = new PopupWithForm({
       });
   }
 });
+avatarPopup.setEventListeners();
 
 addButton.addEventListener('click', function () {
   addPopup.open();
-  addPopup.setEventListeners();
   validFormAdd.resetValidate(); // удаление ошибок при открытии попапа
 });
 
 editButton.addEventListener('click', function () {
   editPopup.open();
-  editPopup.setEventListeners();
-
   const infoProfile = userInfo.getUserInfo();
   userInfo.openUseInfo(infoProfile);
-
   validFormEdit.resetValidate();
 });
 
 avatarButton.addEventListener('click', function () {
   avatarPopup.open();
-  avatarPopup.setEventListeners();
   validFormAvatar.resetValidate();
 });
