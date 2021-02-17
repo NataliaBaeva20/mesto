@@ -153,7 +153,6 @@ const editPopup = new PopupWithForm({
       })
       .finally(() => {
         renderLoading(false, buttonFormEdit, 'Сохранить');
-        console.log('aaaaaaaaaaaaaaaaa');
       });
   }
 });

@@ -7,9 +7,7 @@ export class Api {
   getInitialCards() {
     return fetch(`${this._url}/cards/`, {
       method: 'GET',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
-      }
+      headers: this._headers
     })
     .then((res) =>  {
       if (res.ok) {
@@ -22,10 +20,7 @@ export class Api {
   postCard(card) {
    return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: card.name,
         link: card.link
@@ -42,9 +37,7 @@ export class Api {
   deleteCard(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-      }
+      headers: this._headers
     })
       .then((res) => {
         if (res.ok) {
@@ -57,9 +50,7 @@ export class Api {
   setLike(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'PUT',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-      }
+      headers: this._headers
     })
       .then((res) => {
         if (res.ok) {
@@ -72,9 +63,7 @@ export class Api {
   deleteLike(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-      }
+      headers: this._headers
     })
       .then((res) => {
         if (res.ok) {
@@ -86,9 +75,7 @@ export class Api {
 
   getUserInfo() {
      return fetch(`${this._url}/users/me`, {
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
-      }
+      headers: this._headers
     })
       .then((res) => {
         if (res.ok) {
@@ -101,10 +88,7 @@ export class Api {
   editUserInfo(info) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: info.nameProfile,
         about: info.job
@@ -124,10 +108,7 @@ export class Api {
   editAvatarUser(info) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: {
-        authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar: info.avatar
       })
