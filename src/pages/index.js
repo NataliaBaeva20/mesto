@@ -53,7 +53,7 @@ function deleteCardOnClick(card, cardId) {
   deletePopup.setSubmitHandler(() => {
     api.deleteCard(cardId).then((data) => {
       console.log(data);
-      card._removeToItem();
+      card.removeToItem();
     })
     .catch((err) => {
       console.log(err);
@@ -73,22 +73,26 @@ function createCard(item) {
   return card.generateCard();
 }
 
+function createCardSection (item) {
+  const cardList = new Section ({
+          data: item,
+          renderer: (item) => {
+            cardList.setItem(createCard(item));
+          }
+        },
+        cardsContainer
+        );
+        return cardList;
+}
+
 api.getInitialCards()
   .then((cards) => {
-    const cardList = new Section ({
-      data: cards,
-      renderer: (item) => {
-        cardList.setItem(createCard(item));
-      }
-    },
-    cardsContainer
-    );
-    cardList.renderItems();
+    const arr = createCardSection(cards);
+    arr.renderItems();
   })
   .catch((err) => {
     console.log(err);
   });
-
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
@@ -108,7 +112,8 @@ const addPopup = new PopupWithForm({
     renderLoading(true, buttonFormAdd, '...');
     api.postCard(formData)
       .then((data) => {
-        document.querySelector('.cards').prepend(createCard(data));
+        const arr = createCardSection(data);
+        arr.setItem(createCard(data));
       })
       .catch((err) => {
         console.log(err);
@@ -128,7 +133,7 @@ addButton.addEventListener('click', function () {
 api.getUserInfo()
   .then((data) => {
     userInfo.setUserInfo({nameProfile: data.name, job: data.about});
-    document.querySelector('.profile__image').src = data.avatar;
+    imageAvatar.src = data.avatar;
   });
 
 const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});

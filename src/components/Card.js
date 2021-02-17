@@ -10,7 +10,6 @@ export class Card {
     this._handleTrashButtonClick = handleTrashButtonClick;
     this._handleLike = handleLike;
     this._api = api;
-
   }
 
   _addLike() {
@@ -68,7 +67,7 @@ export class Card {
     });
   }
 
-  _removeToItem() {
+  removeToItem() {
     this._element.remove();
     this._element = null;
   }
@@ -79,7 +78,6 @@ export class Card {
     });
 
     this._element.querySelector('.card__trash-btn').addEventListener('click', () => {
-      // this._removeToItem();
       this._handleTrashButtonClick();
     });
 
