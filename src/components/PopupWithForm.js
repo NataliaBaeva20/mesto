@@ -6,11 +6,12 @@ export class PopupWithForm extends Popup {
     this._form = document.querySelector(popupSelector).querySelector('.form');
     this._handleFormSubmit = handleFormSubmit;
     this._submitFormBind = this._submitForm.bind(this);
+    this._inputList = this._form.querySelectorAll('.form__input');
   }
 
   _getInputValues() {
     // достаем все элементы полей
-    this._inputList = this._form.querySelectorAll('.form__input');
+    // this._inputList = this._form.querySelectorAll('.form__input');
 
     // создаем пустой объект
     this._formValues = {};
@@ -32,7 +33,6 @@ export class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset(); // несохраненные данные при повторном открытии popup удаляются
-    this._form.removeEventListener('submit', this._submitFormBind);
   }
 
   setEventListeners() {
