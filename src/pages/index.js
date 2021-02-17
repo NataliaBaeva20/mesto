@@ -1,7 +1,8 @@
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/Validate.js';
-import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithImage } from '../components/PicturePopup.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupDelete } from '../components/PopupDelete.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
@@ -36,7 +37,7 @@ const api = new Api({
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
 
-const deletePopup = new PopupWithForm({
+const deletePopup = new PopupDelete({
   popupSelector: deletePopupSelector
 });
 
@@ -67,6 +68,9 @@ function setLike(card, cardId) {
   api.setLike(cardId)
     .then((data) => {
       card.visibleLike(data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
@@ -74,6 +78,9 @@ function deleteLike(card, cardId) {
   api.deleteLike(cardId)
     .then((data) => {
       card.hiddenLike(data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
