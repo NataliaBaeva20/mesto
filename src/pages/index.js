@@ -26,6 +26,7 @@ import { validationConfig,
   buttonFormAvatar } from '../utils/constants.js';
 
 import './index.css';
+let userId;
 
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-20',
@@ -41,7 +42,7 @@ const deletePopup = new PopupDelete({
   popupSelector: deletePopupSelector
 });
 
-const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
+const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle', avatarSelector: '.profile__image'});
 
 const classList = new Section({ renderer: (item) => {
   classList.setItem(createCard(item));
@@ -139,8 +140,9 @@ api.getInitialCards()
 api.getUserInfo()
   .then((data) => {
     userInfo.setUserInfo({nameProfile: data.name, job: data.about});
-    imageAvatar.src = data.avatar;
+    userInfo.setAvatarUser({avatar: data.avatar});
   });
+
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
@@ -225,6 +227,5 @@ editButton.addEventListener('click', function () {
 avatarButton.addEventListener('click', function () {
   avatarPopup.open();
   avatarPopup.setEventListeners();
-  avatarInput.value = imageAvatar.src;
   validFormAvatar.resetValidate();
 });
