@@ -11,7 +11,6 @@ import { validationConfig,
   editButton,
   addButton,
   avatarButton,
-  imageAvatar,
   editPopupSelector,
   addPopupSelector,
   imagePopupSelector,
@@ -20,7 +19,6 @@ import { validationConfig,
   formEditElement,
   formAddElement,
   formAvararElement,
-  avatarInput,
   buttonFormAdd,
   buttonFormEdit,
   buttonFormAvatar } from '../utils/constants.js';
@@ -100,12 +98,12 @@ function handleLikeOnCard(card, cardId) {
           if(item.likes == 0) {
             setLike(card, cardId);
           }
-          //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id
-          const proverka = item.likes.some(function(item) {
-            return item._id == 'c31535636f4703fab2691925';
+          //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id и возвращаем true или false
+          const userLike = item.likes.some(function(item) {
+            return item._id == userId;
           });
           // вызываем функцию в зависисоти от проверти на наше id
-          if (proverka) {
+          if (userLike) {
             deleteLike(card, cardId);
           } else {
             setLike(card, cardId);
@@ -125,9 +123,16 @@ function createCard(item) {
     handleLikeButton: () => {
       handleLikeOnCard(card, item._id);
     }
-  }, '.card-template'); //создаем экземпляр карточки
+  }, '.card-template', userId); //создаем экземпляр карточки
   return card.generateCard();
 }
+
+api.getUserInfo()
+  .then((data) => {
+    userInfo.setUserInfo({nameProfile: data.name, job: data.about});
+    userInfo.setAvatarUser({avatar: data.avatar});
+    userId = data._id
+  });
 
 api.getInitialCards()
   .then((cards) => {
@@ -136,13 +141,6 @@ api.getInitialCards()
   .catch((err) => {
     console.log(err);
   });
-
-api.getUserInfo()
-  .then((data) => {
-    userInfo.setUserInfo({nameProfile: data.name, job: data.about});
-    userInfo.setAvatarUser({avatar: data.avatar});
-  });
-
 
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);

@@ -1,14 +1,15 @@
 export class Card {
-  constructor({data, handleCardClick, handleTrashButtonClick, handleLikeButton}, cardSelector) {
+  constructor({data, handleCardClick, handleTrashButtonClick, handleLikeButton}, cardSelector, userId) {
     this._link = data.link;
     this._title = data.name;
     this._idCard = data._id;
     this._likes = data.likes;
-    this._idOwner = data.owner._id;
+    this._ownerId = data.owner._id;
     this._cardSelector = cardSelector;
     this._openPopupImage = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
     this._handleLikeButton = handleLikeButton;
+    this._userId = userId;
   }
 
   visibleLike(data) {
@@ -23,7 +24,7 @@ export class Card {
 
   _showLike() {
     this._likes.forEach(like => {
-      if(like._id == 'c31535636f4703fab2691925') {
+      if(like._id == this._userId) {
         this._element.querySelector('.card__like').classList.add('card__like_active');
       }
     });
@@ -71,7 +72,7 @@ export class Card {
     cardImage.alt = this._title;
     this._element.querySelector('.card__title').textContent = this._title;
     this._element.querySelector('.card__like-count').textContent = this._likes.length;
-    if (this._idOwner == 'c31535636f4703fab2691925') {
+    if (this._ownerId == this._userId) {
         this._element.querySelector('.card__trash-btn').style.display = 'block';
       }
 
