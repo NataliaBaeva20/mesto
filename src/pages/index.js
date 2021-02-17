@@ -26,14 +26,6 @@ import { validationConfig,
 
 import './index.css';
 
-function renderLoading(isLoading, buttonElement, text) {
-  if (isLoading) {
-    buttonElement.textContent += text;
-  } else {
-    buttonElement.textContent = text;
-  }
-}
-
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-20',
   headers: {
@@ -47,6 +39,16 @@ const fullSizeImage = new PopupWithImage(imagePopupSelector);
 const deletePopup = new PopupWithForm({
   popupSelector: deletePopupSelector
 });
+
+const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
+
+function renderLoading(isLoading, buttonElement, text) {
+  if (isLoading) {
+    buttonElement.textContent += text;
+  } else {
+    buttonElement.textContent = text;
+  }
+}
 
 function deleteCardOnClick(card, cardId) {
   deletePopup.open();
@@ -94,6 +96,12 @@ api.getInitialCards()
     console.log(err);
   });
 
+api.getUserInfo()
+  .then((data) => {
+    userInfo.setUserInfo({nameProfile: data.name, job: data.about});
+    imageAvatar.src = data.avatar;
+  });
+
 //создание экземпляров с валидацией для каждой формы
 const validFormAdd = new FormValidator(validationConfig, formAddElement);
 validFormAdd.enableValidation();
@@ -101,12 +109,13 @@ validFormAdd.enableValidation();
 const validFormEdit = new FormValidator(validationConfig, formEditElement);
 validFormEdit.enableValidation();
 
+const validFormAvatar = new FormValidator(validationConfig, formAvararElement);
+validFormAvatar.enableValidation();
 
 
-// создание экземпляра для popup add
+// создание экземпляра для каждого попапа с формой
 const addPopup = new PopupWithForm({
   popupSelector: addPopupSelector,
-
   // объект, который мы передадим при вызове handleFormSubmit окажется на месте параметра formData
   handleFormSubmit: (formData) => {
     renderLoading(true, buttonFormAdd, '...');
@@ -124,21 +133,6 @@ const addPopup = new PopupWithForm({
   }
 });
 
-addButton.addEventListener('click', function () {
-  addPopup.open();
-  addPopup.setEventListeners();
-  validFormAdd.resetValidate(); // удаление ошибок при открытии попапа
-});
-
-api.getUserInfo()
-  .then((data) => {
-    userInfo.setUserInfo({nameProfile: data.name, job: data.about});
-    imageAvatar.src = data.avatar;
-  });
-
-const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '.profile__subtitle'});
-
-// создание экземпляра для popup edit
 const editPopup = new PopupWithForm({
   popupSelector: editPopupSelector,
   handleFormSubmit: (data) => {
@@ -153,19 +147,6 @@ const editPopup = new PopupWithForm({
       });
   }
 });
-
-editButton.addEventListener('click', function () {
-  editPopup.open();
-  editPopup.setEventListeners();
-
-  const infoProfile = userInfo.getUserInfo();
-  userInfo.openUseInfo(infoProfile);
-
-  validFormEdit.resetValidate();
-});
-
-const validFormAvatar = new FormValidator(validationConfig, formAvararElement);
-validFormAvatar.enableValidation();
 
 const avatarPopup = new PopupWithForm({
   popupSelector: avatarPopupSelector,
@@ -184,6 +165,22 @@ const avatarPopup = new PopupWithForm({
         renderLoading(false, buttonFormAvatar, 'Сохранить');
       });
   }
+});
+
+addButton.addEventListener('click', function () {
+  addPopup.open();
+  addPopup.setEventListeners();
+  validFormAdd.resetValidate(); // удаление ошибок при открытии попапа
+});
+
+editButton.addEventListener('click', function () {
+  editPopup.open();
+  editPopup.setEventListeners();
+
+  const infoProfile = userInfo.getUserInfo();
+  userInfo.openUseInfo(infoProfile);
+
+  validFormEdit.resetValidate();
 });
 
 avatarButton.addEventListener('click', function () {
