@@ -12,7 +12,10 @@ export class Api {
       }
     })
     .then((res) =>  {
-      return res.json();
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
     });
   }
 
@@ -28,7 +31,12 @@ export class Api {
         link: card.link
       })
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   deleteCard(id) {
@@ -38,7 +46,12 @@ export class Api {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
       }
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   setLike(id) {
@@ -48,7 +61,12 @@ export class Api {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
       }
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   deleteLike(id) {
@@ -58,7 +76,12 @@ export class Api {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
       }
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   getUserInfo() {
@@ -67,7 +90,12 @@ export class Api {
         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a'
       }
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   editUserInfo(info) {
@@ -82,7 +110,12 @@ export class Api {
         about: info.job
       })
     })
-      .then(res => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
       .then((data) => {
         console.log(data);
       });
@@ -99,6 +132,11 @@ export class Api {
         avatar: info.avatar
       })
     })
-      .then(res => res.json());
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 }

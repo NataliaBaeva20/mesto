@@ -5,8 +5,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-import { initialCards,
-  validationConfig,
+import { validationConfig,
   cardsContainer,
   editButton,
   addButton,
@@ -20,11 +19,20 @@ import { initialCards,
   formEditElement,
   formAddElement,
   formAvararElement,
-  avatarInput } from '../utils/constants.js';
+  avatarInput,
+  buttonFormAdd,
+  buttonFormEdit,
+  buttonFormAvatar } from '../utils/constants.js';
 
 import './index.css'
 
-let aaa;
+function renderLoading(isLoading, buttonElement, text) {
+  if (isLoading) {
+    buttonElement.textContent += text;
+  } else {
+    buttonElement.textContent = text;
+  }
+}
 
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-20',
@@ -35,7 +43,6 @@ const api = new Api({
 });
 
 const fullSizeImage = new PopupWithImage(imagePopupSelector);
-
 
 // const deletePopup = new PopupWithForm({
 //   popupSelector: deletePopupSelector,
@@ -48,8 +55,6 @@ const fullSizeImage = new PopupWithImage(imagePopupSelector);
 //   }
 // });
 
-
-
 // функция создания карточки
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
@@ -57,13 +62,15 @@ function createCard(item) {
     fullSizeImage.setEventListeners();
     },
     handleTrashButtonClick: () => {
-      aaa = item._id;
       const deletePopup = new PopupWithForm({
         popupSelector: deletePopupSelector,
         handleFormSubmit: () => {
-          api.deleteCard(aaa).then((data) => {
+          api.deleteCard(item._id).then((data) => {
             console.log(data);
             card._removeToItem();
+          })
+          .catch((err) => {
+            console.log(err);
           });
         }
       });
@@ -72,8 +79,6 @@ function createCard(item) {
     }
 }, '.card-template', api); //создаем экземпляр карточки
   return card.generateCard();
-  // const cardElement = card.generateCard(); //создаем карточку и возвращаем наружу
-  // cardList.setItem(cardElement); //добавляем в DOM
 }
 
 api.getInitialCards()
@@ -88,6 +93,9 @@ api.getInitialCards()
     cardsContainer
     );
     cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
   });
 
 //создание экземпляров с валидацией для каждой формы
@@ -100,15 +108,21 @@ validFormEdit.enableValidation();
 
 
 // создание экземпляра для popup add
-
 const addPopup = new PopupWithForm({
   popupSelector: addPopupSelector,
 
   // объект, который мы передадим при вызове handleFormSubmit окажется на месте параметра formData
   handleFormSubmit: (formData) => {
+    renderLoading(true, buttonFormAdd, '...');
     api.postCard(formData)
       .then((data) => {
         document.querySelector('.cards').prepend(createCard(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, buttonFormAdd, 'Создать');
       });
   }
 });
@@ -131,8 +145,16 @@ const userInfo = new UserInfo({ nameSelector: '.profile__title', infoSelector: '
 const editPopup = new PopupWithForm({
   popupSelector: editPopupSelector,
   handleFormSubmit: (data) => {
+    renderLoading(true, buttonFormEdit, '...');
     userInfo.setUserInfo(data);
-    api.editUserInfo(data);
+    api.editUserInfo(data)
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, buttonFormEdit, 'Сохранить');
+        console.log('aaaaaaaaaaaaaaaaa');
+      });
   }
 });
 
@@ -146,27 +168,24 @@ editButton.addEventListener('click', function () {
   validFormEdit.resetValidate();
 });
 
-// const cardList = new Section ({
-//       data: initialCards,
-//       renderer: (item) => {
-//         createCard(item);
-//       }
-//     },
-//     cardsContainer
-//   );
-// cardList.renderItems();
-
 const validFormAvatar = new FormValidator(validationConfig, formAvararElement);
 validFormAvatar.enableValidation();
 
 const avatarPopup = new PopupWithForm({
   popupSelector: avatarPopupSelector,
   handleFormSubmit: (data) => {
+    renderLoading(true, buttonFormAvatar, '...');
     // отправка на сервер запроса на изменение аватара
     api.editAvatarUser(data)
       .then((data) => {
         //если ответ успешный меняем ссылку аватара в профиле
         imageAvatar.src = data.avatar;
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, buttonFormAvatar, 'Сохранить');
       });
   }
 });

@@ -16,88 +16,48 @@ export class Card {
   _addLike() {
     this._api.setLike(this._idCard)
       .then((data) => {
-        console.log(data);
-        // console.log('добавить');
         this._element.querySelector('.card__like').classList.add('card__like_active');
         this._element.querySelector('.card__like-count').textContent = data.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
   _deleteLike() {
     this._api.deleteLike(this._idCard)
       .then((data) => {
-        console.log(data);
-        // console.log('удалить');
         this._element.querySelector('.card__like').classList.remove('card__like_active');
         this._element.querySelector('.card__like-count').textContent = data.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
-  // _likeToItem() {
-  //   console.log(this._likes);
-
-  //     fetch(`https://mesto.nomoreparties.co/v1/cohort-20/cards/`, {
-  //       method: 'GET',
-  //       headers: {
-  //         authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-  //       }
-  //     })
-  //       .then(res => res.json())
-  //       .then((data) => {
-  //         data.forEach(item => {
-  //           if (item._id == this._idCard) {
-  //             if(item.likes == 0) {
-  //               this._addLike();
-  //               // console.log('добавить лайк массив пустой');
-  //             }
-  //             item.likes.forEach(like => {
-  //               if(like._id == 'c31535636f4703fab2691925') {
-  //                 // console.log('есть мой лайк');
-  //                 this._deleteLike();
-  //                 console.log('удалить');
-  //                 } else {
-  //                   this._addLike();
-  //                   console.log('добавить');
-  //                 }
-  //             });
-
-
-  //           }
-  //         });
-
-  //       });
-  // }
   _likeToItem() {
-      fetch(`https://mesto.nomoreparties.co/v1/cohort-20/cards/`, {
-        method: 'GET',
-        headers: {
-          authorization: '809cbb8d-69a2-4b7e-91ef-1af1ed19e42a',
-        }
-      })
-        .then(res =>res.json())
-        .then((data) => {
-          data.forEach(item => {
-            if (item._id == this._idCard) {
-              if(item.likes == 0) {
-                this._addLike();
-                // console.log('добавить лайк массив пустой');
-              }
-
-              const proverka = item.likes.some(function(element) {
-                return element._id == 'c31535636f4703fab2691925';
-              });
-
-              if (proverka) {
-                // console.log('есть мой лайк');
-                this._deleteLike();
-                console.log('удалить');
-              } else {
-                this._addLike();
-                console.log('добавить');
-              }
+    //отправляем запрос на сервес, чтобы достать массив лайков для проверки есть лайк или нет от нас
+    this._api.getInitialCards()
+      .then((data) => {
+        data.forEach(item => {
+          if (item._id == this._idCard) {
+            //если массив лайков пустой, то добавляем лайк
+            if(item.likes == 0) {
+              this._addLike();
             }
-          });
+            //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id
+            const proverka = item.likes.some(function(element) {
+              return element._id == 'c31535636f4703fab2691925';
+            });
+            // вызываем функцию в зависисоти от проверти на наше id
+            if (proverka) {
+              this._deleteLike();
+            } else {
+              this._addLike();
+            }
+          }
         });
+      });
   }
 
   _showLike() {
@@ -154,7 +114,6 @@ export class Card {
     if (this._idOwner == 'c31535636f4703fab2691925') {
         this._element.querySelector('.card__trash-btn').style.display = 'block';
       }
-
 
     return this._element; // вернем элемент наружу
   }
