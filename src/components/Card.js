@@ -14,6 +14,7 @@ export class Card {
     this._like = this._element.querySelector('.card__like');
     this._likeCount = this._element.querySelector('.card__like-count');
     this._buttonTrash = this._element.querySelector('.card__trash-btn');
+    this._cardImage = this._element.querySelector('.card__image');
   }
 
   visibleLike(data) {
@@ -34,6 +35,12 @@ export class Card {
     });
   }
 
+  _showButtonTrash() {
+    if (this._ownerId == this._userId) {
+      this._buttonTrash.style.display = 'block';
+      }
+  }
+
   removeToItem() {
     this._element.remove();
     this._element = null;
@@ -48,7 +55,7 @@ export class Card {
       this._handleTrashButtonClick();
     });
 
-    this._element.querySelector('.card__image').addEventListener('click', () => {
+    this._cardImage.addEventListener('click', () => {
       this._openPopupImage();
     });
   }
@@ -68,16 +75,13 @@ export class Card {
   generateCard() {
     this._setEventListeners();
     this._showLike();
+    this._showButtonTrash();
 
     //добавление данных
-    const cardImage = this._element.querySelector('.card__image');
-    cardImage.src = this._link;
-    cardImage.alt = this._title;
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._title;
     this._element.querySelector('.card__title').textContent = this._title;
     this._likeCount.textContent = this._likes.length;
-    if (this._ownerId == this._userId) {
-      this._buttonTrash.style.display = 'block';
-      }
 
     return this._element; // вернем элемент наружу
   }
