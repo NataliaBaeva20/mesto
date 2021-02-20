@@ -42,7 +42,7 @@ export class Api {
       .then(this._checkResponse);
   }
 
-  setLike(id) {
+  addLike(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'PUT',
       headers: this._headers
@@ -50,7 +50,7 @@ export class Api {
       .then(this._checkResponse);
   }
 
-  deleteLike(id) {
+  removeLike(id) {
     return fetch(`${this._url}/cards/likes/${id}`, {
       method: 'DELETE',
       headers: this._headers

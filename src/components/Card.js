@@ -1,5 +1,5 @@
 export class Card {
-  constructor({data, handleCardClick, handleTrashButtonClick, handleLikeButton}, cardSelector, userId) {
+  constructor({data, handleCardClick, handleTrashButtonClick, addLike, removeLike}, cardSelector, userId) {
     this._link = data.link;
     this._title = data.name;
     this._idCard = data._id;
@@ -8,23 +8,15 @@ export class Card {
     this._cardSelector = cardSelector;
     this._openPopupImage = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
-    this._handleLikeButton = handleLikeButton;
+    this._addLike = addLike;
+    this._removeLike = removeLike;
     this._userId = userId;
     this._element = this._getTemplate();
     this._like = this._element.querySelector('.card__like');
     this._likeCount = this._element.querySelector('.card__like-count');
     this._buttonTrash = this._element.querySelector('.card__trash-btn');
     this._cardImage = this._element.querySelector('.card__image');
-  }
-
-  visibleLike(data) {
-    this._like.classList.add('card__like_active');
-    this._likeCount.textContent = data.likes.length;
-  }
-
-  hiddenLike(data) {
-    this._like.classList.remove('card__like_active');
-    this._likeCount.textContent = data.likes.length;
+    this._likeButtonBind = this._likeButton.bind(this);
   }
 
   _showLike() {
@@ -46,10 +38,22 @@ export class Card {
     this._element = null;
   }
 
+  changeCountLike(count) {
+    this._likeCount.textContent = count;
+  }
+
+  _likeButton(evt) {
+    if(!evt.target.classList.contains('card__like_active')) {
+      this._addLike();
+      this._like.classList.add('card__like_active');
+    } else {
+      this._removeLike();
+      this._like.classList.remove('card__like_active');
+    }
+  }
+
   _setEventListeners() {
-    this._like.addEventListener('click', () => {
-      this._handleLikeButton();
-    });
+    this._like.addEventListener('click', this._likeButtonBind);
 
     this._buttonTrash.addEventListener('click', () => {
       this._handleTrashButtonClick();

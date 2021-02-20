@@ -70,50 +70,6 @@ function deleteCardOnClick(card, cardId) {
   });
 }
 
-function setLike(card, cardId) {
-  api.setLike(cardId)
-    .then((data) => {
-      card.visibleLike(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-function deleteLike(card, cardId) {
-  api.deleteLike(cardId)
-    .then((data) => {
-      card.hiddenLike(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-function handleLikeOnCard(card, cardId) {
-  api.getInitialCards()
-    .then((data) => {
-      data.forEach(item => {
-        if (item._id == cardId) {
-          //если массив лайков пустой, то добавляем лайк
-          if(item.likes == 0) {
-            setLike(card, cardId);
-          }
-          //иначе если массив не пустой, то проверяем, если в нем элемент с нашем id и возвращаем true или false
-          const userLike = item.likes.some(function(item) {
-            return item._id == userId;
-          });
-          // вызываем функцию в зависисоти от проверти на наше id
-          if (userLike) {
-            deleteLike(card, cardId);
-          } else {
-            setLike(card, cardId);
-          }
-        }
-      });
-    });
-}
-
 function createCard(item) {
   const card = new Card({data: item, handleCardClick: () => {
     fullSizeImage.open(item);
@@ -121,8 +77,23 @@ function createCard(item) {
     handleTrashButtonClick: () => {
       deleteCardOnClick(card, item._id);
     },
-    handleLikeButton: () => {
-      handleLikeOnCard(card, item._id);
+    addLike: () => {
+      api.addLike(item._id)
+        .then((res) => {
+          card.changeCountLike(res.likes.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    removeLike: () => {
+      api.removeLike(item._id)
+        .then((res) => {
+          card.changeCountLike(res.likes.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, '.card-template', userId); //создаем экземпляр карточки
   return card.generateCard();
