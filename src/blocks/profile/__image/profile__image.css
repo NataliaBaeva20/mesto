@@ -2,11 +2,5 @@
   width: 100%;
   height: 120px;
   border-radius: 50%;
-  /* margin-right: 30px; */
 }
 
-@media screen and (max-width: 755px) {
-  .profile__image {
-    margin: 0 0 26px 0;
-  }
-}
